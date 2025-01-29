@@ -1,0 +1,13 @@
+body {
+	background-color: #FFFFFF;
+}
+
+.error-message {
+	display: block;
+	/* エラーメッセージをブロック要素にする */
+	color: red;
+	font-size: 0.875em;
+	margin-top: 5px;
+	/* テキストボックスとエラーメッセージの間に少しスペースを追加 */
+}
+
