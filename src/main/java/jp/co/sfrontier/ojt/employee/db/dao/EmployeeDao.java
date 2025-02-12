@@ -1,6 +1,3 @@
-/**
- * 
- */
 package jp.co.sfrontier.ojt.employee.db.dao;
 
 import java.sql.Connection;
@@ -13,12 +10,15 @@ import java.util.List;
 
 import jp.co.sfrontier.ojt.employee.db.entity.EmployeeEntity;
 
-/**社員情報の参照、新規登録、更新、削除のSQL文を実行するクラス。
- * 
+/**
+ * 社員情報の参照、新規登録、更新、削除のSQL文を実行するクラス。
  */
 public class EmployeeDao {
 
-	//社員情報の参照を行う
+	/**
+	 * 社員情報の参照を行うメソッド
+	 * @return employees
+	 */
 	public List<EmployeeEntity> getEmployeeInfo() {
 		// SQL文の作成
 		String sql = "SELECT * FROM employees";
@@ -40,13 +40,12 @@ public class EmployeeDao {
 				String firstName = rs.getString("first_name");
 				String alphabetLastName = rs.getString("last_name_roman");
 				String alphabetFirstName = rs.getString("first_name_roman");
-				Date birthday = Date.valueOf(rs.getString("birthday"));
-				Date hireDate = Date.valueOf(rs.getString("hired_on"));
+				Date birthday = rs.getDate("birthday");
+	            Date hireDate = rs.getDate("hired_on");
 				String department = rs.getString("department");
 
-				//EmployeeEntityのインスタンスを生成し、取り出したデータをリストに追加
-				EmployeeEntity employee = new EmployeeEntity(employeeNo, lastName, firstName, alphabetLastName,
-						alphabetFirstName, birthday, hireDate, department);
+				//EmployeeEntityのインスタンスを生成し、取り出したデータをリストに追加する
+				EmployeeEntity employee = new EmployeeEntity(employeeNo, lastName, firstName, alphabetLastName, alphabetFirstName, birthday, hireDate, department);
 				employees.add(employee);
 			}
 		} catch (SQLException e) {
@@ -55,7 +54,12 @@ public class EmployeeDao {
 		return employees;
 	}
 
-	//社員番号の重複チェックを行う
+	/**
+	 * 社員番号の重複チェックを行うメソッド
+	 * @param empNo
+	 * @return isExist
+	 * @throws SQLException
+	 */
 	public boolean isEmpNoExists(int empNo) throws SQLException {
 		boolean isExist = false;
 
@@ -81,7 +85,11 @@ public class EmployeeDao {
 		return isExist;
 	}
 
-	//社員情報の新規登録を行う
+	/**
+	 * 社員情報の新規登録を行う
+	 * @param employee
+	 * @return isInserted
+	 */
 	public boolean insertEmployee(EmployeeEntity employee) {
 		// SQL文の作成
 		String sql = "INSERT INTO employees (employee_no, last_name, first_name, last_name_roman, first_name_roman, birthday, hired_on, department) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -103,12 +111,11 @@ public class EmployeeDao {
 			stmt.setString(4, employee.getAlphabetLastName());
 			stmt.setString(5, employee.getAlphabetFirstName());
 			stmt.setDate(6, employee.getBirthday());
-			stmt.setDate(7, employee.getHiredOn());
+			stmt.setDate(7, employee.getHireDate());
 			stmt.setString(8, employee.getDepartment());
 
 			// SQL実行
-			int i = stmt.executeUpdate();
-			System.out.println(i + "行が挿入されました。");
+			stmt.executeUpdate();
 			isInserted = true;
 		} catch (SQLException e) {
 			e.printStackTrace();

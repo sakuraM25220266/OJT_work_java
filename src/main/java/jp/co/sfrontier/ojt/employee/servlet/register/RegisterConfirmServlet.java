@@ -1,7 +1,6 @@
 package jp.co.sfrontier.ojt.employee.servlet.register;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 
 import jakarta.servlet.RequestDispatcher;
@@ -15,7 +14,7 @@ import jp.co.sfrontier.ojt.employee.db.dao.EmployeeDao;
 import jp.co.sfrontier.ojt.employee.servlet.validator.InputValidator;
 
 /**
- * Servlet implementation class RegisterConfirmServlet
+ * 社員方法の登録確認を行うサーブレットクラス
  */
 @WebServlet("/register/confirm")
 public class RegisterConfirmServlet extends HttpServlet {
@@ -26,21 +25,13 @@ public class RegisterConfirmServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		//入力画面で入力された値を取得する
-		String empNoStr = request.getParameter("emp_no");
-		String lastName = request.getParameter("last_name");
-		String firstName = request.getParameter("first_name");
-		String alphabetLastName = request.getParameter("alphabet_last_name");
-		String alphabetFirstName = request.getParameter("alphabet_first_name");
-		Date birthday = null;
+		String empNoStr = request.getParameter("empNo");
+		String lastName = request.getParameter("lastName");
+		String firstName = request.getParameter("firstName");
+		String alphabetLastName = request.getParameter("alphabetLastName");
+		String alphabetFirstName = request.getParameter("alphabetFirstName");
 		String birthdayStr = request.getParameter("birthday");
-		if (birthdayStr != "") {
-			birthday = Date.valueOf(birthdayStr);
-		}
-		Date hireDate = null;
-		String hireDateStr = request.getParameter("hire_date");
-		if (hireDateStr != "") {
-			hireDate = Date.valueOf(request.getParameter("hire_date"));
-		}
+		String hireDateStr = request.getParameter("hireDate");
 		String department = request.getParameter("department");
 
 		// セッションに保存
@@ -50,8 +41,8 @@ public class RegisterConfirmServlet extends HttpServlet {
 		session.setAttribute("firstName", firstName);
 		session.setAttribute("alphabetLastName", alphabetLastName);
 		session.setAttribute("alphabetFirstName", alphabetFirstName);
-		session.setAttribute("birthday", birthday);
-		session.setAttribute("hireDate", hireDate);
+		session.setAttribute("birthday", birthdayStr);
+		session.setAttribute("hireDate", hireDateStr);
 		session.setAttribute("department", department);
 
 		// バリデーション処理
@@ -59,7 +50,7 @@ public class RegisterConfirmServlet extends HttpServlet {
 		String empNoError = validator.validateEmpNo(empNoStr);
 		int empNo = 0;
 		if (empNoError == null) {
-			empNo = Integer.parseInt(request.getParameter("emp_no"));
+			empNo = Integer.parseInt(request.getParameter("empNo"));
 			EmployeeDao employeeDao = new EmployeeDao();
 			try {
 				if (employeeDao.isEmpNoExists(empNo)) {
@@ -70,10 +61,11 @@ public class RegisterConfirmServlet extends HttpServlet {
 			}
 		}
 
-		String nameError = validator.validateName(lastName, firstName);
-		String alphabetNameError = validator.validateAlphabetName(alphabetLastName, alphabetFirstName);
-		String birthdayError = validator.validateDate(birthday);
-		String hireDateError = validator.validateDate(hireDate);
+		String lastNameError = validator.validateLastName(lastName);
+		String firstNameError = validator.validateFirstName(firstName);
+		String alphabetLastNameError = validator.validateAlphabetLastName(alphabetLastName);
+		String alphabetFirstNameError = validator.validateAlphabetFirstName(alphabetFirstName);
+		//JSPの「input type="date"」の仕様上、バリデーションエラーを発生させることができないため、生年月日と入社年月日のバリデーションチェックは行わない。
 		String departmentError = validator.validateDepartment(department);
 
 		boolean hasError = false;
@@ -82,47 +74,26 @@ public class RegisterConfirmServlet extends HttpServlet {
 			request.setAttribute("empNoError", empNoError);
 			hasError = true;
 		}
-		if (nameError != null) {
-			request.setAttribute("nameError", nameError);
+		if (lastNameError != null) {
+			request.setAttribute("lastNameError", lastNameError);
 			hasError = true;
 		}
-		if (alphabetNameError != null) {
-			request.setAttribute("alphabetNameError", alphabetNameError);
+		if (firstNameError != null) {
+			request.setAttribute("firstNameError", firstNameError);
 			hasError = true;
 		}
-		if (birthdayError != null) {
-			request.setAttribute("dateError", birthdayError);
+		if (alphabetLastNameError != null) {
+			request.setAttribute("alphabetLastNameError", alphabetLastNameError);
 			hasError = true;
 		}
-		if (hireDateError != null) {
-			request.setAttribute("hireDateError", hireDateError);
+		if (alphabetFirstNameError != null) {
+			request.setAttribute("alphabetFirstNameError", alphabetFirstNameError);
 			hasError = true;
 		}
 		if (departmentError != null) {
 			request.setAttribute("departmentError", departmentError);
 			hasError = true;
 		}
-
-		request.setAttribute("empNo", empNo);
-		request.setAttribute("lastName", lastName);
-		request.setAttribute("firstName", firstName);
-		request.setAttribute("alphabetLastName", alphabetLastName);
-		request.setAttribute("alphabetFirstName", alphabetFirstName);
-
-		// birthday が null の場合、空文字をセット
-		if (birthday == null) {
-			request.setAttribute("birthday", "");
-		} else {
-			request.setAttribute("birthday", birthday);
-		}
-
-		// hireDate が null の場合、空文字をセット
-		if (hireDate == null) {
-			request.setAttribute("hireDate", "");
-		} else {
-			request.setAttribute("hireDate", hireDate);
-		}
-		request.setAttribute("department", department);
 
 		// エラーがあった場合は入力画面に戻す
 		if (hasError) {
@@ -131,16 +102,16 @@ public class RegisterConfirmServlet extends HttpServlet {
 			return;
 		}
 
-		// 確認画面に遷移
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/register/RegisterConfirm.jsp");
-		dispatcher.forward(request, response);
-	}
+		// エラーがなければ確認画面に渡す値をセットし、確認画面に遷移
+		request.setAttribute("empNo", empNoStr);
+		request.setAttribute("lastName", lastName);
+		request.setAttribute("firstName", firstName);
+		request.setAttribute("alphabetLastName", alphabetLastName);
+		request.setAttribute("alphabetFirstName", alphabetFirstName);
+		request.setAttribute("birthday", birthdayStr);
+		request.setAttribute("hireDate", hireDateStr);
+		request.setAttribute("department", department);
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-
-		//登録機能の確認画面を表示する
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/register/RegisterConfirm.jsp");
 		dispatcher.forward(request, response);
 	}
