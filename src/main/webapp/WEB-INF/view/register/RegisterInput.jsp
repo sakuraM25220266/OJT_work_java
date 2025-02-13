@@ -29,21 +29,14 @@
 	 alphabetFirstName = ""; 
    }
    
-   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-   Date birthday = (Date) session.getAttribute("birthday");
-   String birthdayStr = "";
+   String birthday = (String) session.getAttribute("birthday");
    if (birthday == null) { 
-	 birthdayStr = ""; 
-   }else{
-	   birthdayStr = dateFormat.format(birthday);
+	   birthday = ""; 
    }
    
-   Date hireDate = (Date) session.getAttribute("hireDate");
-   String hireDateStr = "";
+   String hireDate = (String) session.getAttribute("hireDate");
    if (hireDate == null) { 
-	  hireDateStr = ""; 
-   }else{
-	   hireDateStr = dateFormat.format(hireDate);
+	   hireDate = ""; 
    }
    
    String department = (String) session.getAttribute("department");
@@ -70,7 +63,7 @@
 		<tr>
 			<td>社員番号<br>※必須</td>
 			<td>
-				<input type="text" name="emp_no" value="<%= empNo %>">
+				<input type="text" name="empNo" value="<%= empNo %>">
 			
                 <% 
                     String empNoError = (String) request.getAttribute("empNoError");
@@ -84,36 +77,54 @@
 		</tr>
 		<tr>
 			<td>氏名(漢字)<br>※必須</td>
-			<td><input type="text" name="last_name" value="<%= lastName %>" >
+			<td><input type="text" name="lastName" value="<%= lastName %>" >
                 <% 
-                    String nameError = (String) request.getAttribute("nameError");
-                    if (nameError != null) {
+                    String lastNameError = (String) request.getAttribute("lastNameError");
+                    if (lastNameError != null) {
                 %>
-                    <span class="error-message"><%= nameError %></span> 
+                    <span class="error-message"><%= lastNameError %></span> 
                 <% 
                     }
                 %>
             </td>
-            <td><input type="text" name="first_name" value="<%= firstName %>" ></td>
+            <td><input type="text" name="firstName" value="<%= firstName %>" >
+            	<% 
+                    String firstNameError = (String) request.getAttribute("firstNameError");
+                    if (firstNameError != null) {
+                %>
+                    <span class="error-message"><%= firstNameError %></span> 
+                <% 
+                    }
+                %>
+            </td>
 			
 		</tr>
 		<tr>
 			<td>氏名(ローマ字)<br>※必須</td>
-			<td><input type="text" name="alphabet_last_name" value="<%= alphabetLastName %>" >
+			<td><input type="text" name="alphabetLastName" value="<%= alphabetLastName %>" >
                 <% 
-                    String alphabetNameError = (String) request.getAttribute("alphabetNameError");
-                    if (alphabetNameError != null) {
+                    String alphabetLastNameError = (String) request.getAttribute("alphabetLastNameError");
+                    if (alphabetLastNameError != null) {
                 %>
-                    <span class="error-message"><%= alphabetNameError %></span>
+                    <span class="error-message"><%= alphabetLastNameError %></span>
                 <% 
                     }
                 %>
             </td>
-            <td><input type="text" name="alphabet_first_name" value="<%= alphabetFirstName %>" ></td>
+            <td><input type="text" name="alphabetFirstName" value="<%= alphabetFirstName %>" >
+            	<% 
+                    String alphabetFirstNameError = (String) request.getAttribute("alphabetFirstNameError");
+                    if (alphabetFirstNameError != null) {
+                %>
+                    <span class="error-message"><%= alphabetFirstNameError %></span>
+                <% 
+                    }
+                %>
+            </td>
 		</tr>
 		<tr>
 			<td>生年月日</td>
-			<td><input type="date" name="birthday" value="<%= birthdayStr %>" min="1900-01-01" max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
+			<td><input type="date" name="birthday" value="<%= birthday %>" min="1900-01-01" max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
                 <% 
                     String dateError = (String) request.getAttribute("dateError");
                     if (dateError != null) {
@@ -126,7 +137,7 @@
 		</tr>
 		<tr>
 			<td>入社年月日</td>
-			<td><input type="date" name="hire_date" value="<%= hireDateStr %>" min="1900-01-01" max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
+			<td><input type="date" name="hireDate" value="<%= hireDate %>" min="1900-01-01" max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
                 <% 
                     String hireDateError = (String) request.getAttribute("hireDateError");
                     if (hireDateError != null) {

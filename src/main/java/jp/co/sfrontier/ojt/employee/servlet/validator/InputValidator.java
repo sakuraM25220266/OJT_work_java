@@ -1,18 +1,17 @@
 package jp.co.sfrontier.ojt.employee.servlet.validator;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeParseException;
-
 /**
- * バリデーションチェックの処理を行うクラス。
+ * バリデーションチェックの処理を行うクラス
  */
 public class InputValidator {
 
-	//社員番号のバリデーションメソッド
+	/**
+	 * 社員番号のバリデーションチェックを行うメソッド
+	 * @param empNoStr
+	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
+	 */
 	public String validateEmpNo(String empNoStr) {
-		if (empNoStr == null || empNoStr.equals("")) {
+		if (empNoStr == null || empNoStr.isEmpty()) {
 			return "必須項目が未入力です。";
 		}
 		if (empNoStr.matches("^0{1,4}$")) {
@@ -25,56 +24,71 @@ public class InputValidator {
 		return null;
 	}
 
-	//氏名のバリデーションメソッド
-	public String validateName(String lastName, String firstName) {
-		if (lastName == null || lastName.equals("") || firstName == null || firstName.equals("")) {
+	/**
+	 * 姓(漢字)のバリデーションチェックを行うメソッド
+	 * @param lastName
+	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
+	 */
+	public String validateLastName(String lastName) {
+		if (lastName == null || lastName.isEmpty()) {
 			return "必須項目が未入力です。";
 		}
-		if (lastName.length() > 10 || firstName.length() > 10) {
+		if (lastName.length() > 10) {
 			return "10文字以内で入力してください。";
 		}
 		return null;
 	}
+	
+	/**
+	 * 名(漢字)のバリデーションチェックを行うメソッド
+	 * @param firstName
+	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
+	 */
+		public String validateFirstName(String firstName) {
+			if (firstName == null || firstName.isEmpty()) {
+				return "必須項目が未入力です。";
+			}
+			if (firstName.length() > 10) {
+				return "10文字以内で入力してください。";
+			}
+			return null;
+		}
 
-	//氏名(ローマ字)のバリデーションメソッド
-	public String validateAlphabetName(String alphabetLastName, String alphabetFirstName) {
-		if (alphabetLastName == null || alphabetLastName.equals("") || alphabetFirstName == null
-				|| alphabetFirstName.equals("")) {
+	/**
+	 * 姓(ローマ字)のバリデーションチェックを行うメソッド
+	 * @param alphabetLastName
+	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
+	 */
+	public String validateAlphabetLastName(String alphabetLastName) {
+		if (alphabetLastName == null || alphabetLastName.isEmpty()){
 			return "必須項目が未入力です。";
 		}
-		if (!alphabetLastName.matches("^[A-Za-z]{1,20}$") || !alphabetFirstName.matches("^[A-Za-z]{1,20}$")) {
+		if (!alphabetLastName.matches("^[A-Za-z]{1,20}$")) {
 			return "20文字以内のアルファベットで入力してください。";
 		}
 		return null;
 	}
-
-	//年月日のバリデーションメソッド
-	public String validateDate(Date date) {
-		// 日付がnullの場合はバリデーションを行わない
-		if (date == null) {
+	
+	/**
+	 * 名(ローマ字)のバリデーションチェックを行うメソッド
+	 * @param alphabetFirstName
+	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
+	 */
+		public String validateAlphabetFirstName(String alphabetFirstName) {
+			if (alphabetFirstName == null || alphabetFirstName.isEmpty()){
+				return "必須項目が未入力です。";
+			}
+			if (!alphabetFirstName.matches("^[A-Za-z]{1,20}$")) {
+				return "20文字以内のアルファベットで入力してください。";
+			}
 			return null;
 		}
-		try {
-			//Date型をLocalDate型に変換する
-			LocalDate parsedDate = date.toLocalDate();
 
-			// 1900年1月1日から現在の日付までの範囲をチェック
-			LocalDate minDate = LocalDate.of(1900, Month.JANUARY, 1);
-			LocalDate currentDate = LocalDate.now();
-
-			// 範囲外の日付の場合
-			if (parsedDate.isBefore(minDate) || parsedDate.isAfter(currentDate)) {
-				return "存在しない年月日です。選択しなおしてください。";
-			}
-		} catch (DateTimeParseException e) {
-			// 無効な日付形式、または存在しない日付の場合
-			return "存在しない年月日です。選択しなおしてください。";
-		}
-
-		return null;
-	}
-
-	//部署のバリデーションメソッド
+	/**
+	 * 部署のバリデーションチェックを行うメソッド
+	 * @param department
+	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
+	 */
 	public String validateDepartment(String department) {
 		if (department.length() > 20) {
 			return "20文字以内で入力してください。";

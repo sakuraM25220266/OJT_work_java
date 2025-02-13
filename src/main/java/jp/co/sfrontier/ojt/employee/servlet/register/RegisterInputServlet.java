@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class RegisterInputServlet
+ * 新規社員登録機能の入力画面を表示するサーブレットクラス
  */
 @WebServlet("/register/input")
 public class RegisterInputServlet extends HttpServlet {

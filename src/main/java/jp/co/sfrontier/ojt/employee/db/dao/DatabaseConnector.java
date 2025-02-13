@@ -9,17 +9,30 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/**MySQLとの接続を行うクラス
- * 
+/**
+ * MySQLとの接続を行うクラス
  */
 public class DatabaseConnector {
-	//staticフィールドでフィールド宣言だけする
+
 	private static Properties properties = new Properties();
 
+	/**
+	 * JDBCドライバのロードする静的初期化ブロック
+	 */
 	static {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
-	//getConnectionメソッドでは生成済みのPropertyから設定を取得する
+	/**
+	 * 設定ファイルからDB接続に必要な設定値を読み込み、DBに接続するメソッド
+	 * @return conn(DB接続)
+	 * @throws SQLException
+	 */
 	public Connection getConnection() throws SQLException {
 		properties = new Properties();
 		try (InputStream is = getClass().getResourceAsStream("/localhost.properties");
@@ -36,15 +49,8 @@ public class DatabaseConnector {
 		String password = properties.getProperty("db.password");
 
 		Connection conn = null;
-		// データベース接続を返す。接続に失敗した場合はnullが返される。
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-		}
+		// DB接続を返す。接続に失敗した場合はnullが返される。
 		conn = DriverManager.getConnection(url, user, password);
-
 		return conn;
 	}
-
 }
