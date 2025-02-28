@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>新規登録確認画面</title>
+<title>更新確認画面</title>
 <script src="<%=request.getContextPath()%>/JavaScript/ButtonAction.js"></script>
 </head>
 <body>
@@ -20,7 +20,7 @@
 	%>
 
 	<p>下記内容でよろしければ、「登録する」ボタンをクリックしてください。</p>
-	<form action="<%=request.getContextPath()%>/register/complete"method="post">
+	<form method="post" action="?">
 		<table>
 			<tr>
 				<td>社員番号</td>
@@ -56,8 +56,8 @@
 			</tr>
 		</table>
 		<div>
-			<button type="button" onclick="location.href='<%=request.getContextPath()%>/register/input'">内容を修正する</button>
-			<button id="submitButton" type="submit" onclick="disableSubmitButton()">登録する</button>
+			<button type="submit" formaction="<%=request.getContextPath()%>/update/input">内容を修正する</button>
+			<button type="submit" id="submitButton" onsubmit="disableSubmitButton()" formaction="<%=request.getContextPath()%>/update/complete">更新する</button>
 		</div>
 	</form>
 </body>

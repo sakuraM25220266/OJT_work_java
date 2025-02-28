@@ -19,16 +19,6 @@
     <servlet-name>RegisterCompleteServlet</servlet-name>
     <url-pattern>/RegisterCompleteServlet</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>LoginServlet</display-name>
-    <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>jp.co.sfrontier.ojt.employee.servlet.LoginServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LoginServlet</servlet-name>
-    <url-pattern>/LoginServlet</url-pattern>
-  </servlet-mapping>
   <error-page>
     <error-code>404</error-code>
     <location>/WEB-INF/Error404.jsp</location>
@@ -39,12 +29,22 @@
   </error-page>
   <servlet>
     <description></description>
-    <display-name>UpdateInputServlet</display-name>
-    <servlet-name>UpdateInputServlet</servlet-name>
-    <servlet-class>jp.co.sfrontier.ojt.employee.servlet.update.UpdateInputServlet</servlet-class>
+    <display-name>UpdateConfirmServlet</display-name>
+    <servlet-name>UpdateConfirmServlet</servlet-name>
+    <servlet-class>jp.co.sfrontier.ojt.employee.servlet.update.UpdateConfirmServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>UpdateInputServlet</servlet-name>
-    <url-pattern>/UpdateInputServlet</url-pattern>
+    <servlet-name>UpdateConfirmServlet</servlet-name>
+    <url-pattern>/UpdateConfirmServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateCompleteServlet</display-name>
+    <servlet-name>UpdateCompleteServlet</servlet-name>
+    <servlet-class>jp.co.sfrontier.ojt.employee.servlet.update.UpdateCompleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateCompleteServlet</servlet-name>
+    <url-pattern>/UpdateCompleteServlet</url-pattern>
   </servlet-mapping>
 </web-app>

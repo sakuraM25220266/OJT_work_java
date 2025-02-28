@@ -1,7 +1,6 @@
-package jp.co.sfrontier.ojt.employee.servlet.register;
+package jp.co.sfrontier.ojt.employee.servlet.update;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,19 +9,17 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jp.co.sfrontier.ojt.employee.db.dao.EmployeeDao;
 import jp.co.sfrontier.ojt.employee.servlet.validator.InputValidator;
 
 /**
- * 社員情報の登録確認を行うサーブレットクラス
+ * 社員情報の更新確認を行うサーブレットクラス
  */
-@WebServlet("/register/confirm")
-public class RegisterConfirmServlet extends HttpServlet {
+@WebServlet("/update/confirm")
+public class UpdateConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");
 
 		//入力画面で入力された値を取得する
 		String employeeNoStr = request.getParameter("employeeNo");
@@ -36,31 +33,17 @@ public class RegisterConfirmServlet extends HttpServlet {
 
 		// セッションに保存
 		HttpSession session = request.getSession();
-		session.setAttribute("registerEmployeeNo", employeeNoStr);
-		session.setAttribute("registerLastName", lastName);
-		session.setAttribute("registerFirstName", firstName);
-		session.setAttribute("registerAlphabetLastName", alphabetLastName);
-		session.setAttribute("registerAlphabetFirstName", alphabetFirstName);
-		session.setAttribute("registerBirthday", birthdayStr);
-		session.setAttribute("registerHireDate", hireDateStr);
-		session.setAttribute("registerDepartment", department);
+		session.setAttribute("updateEmployeeNo", employeeNoStr);
+		session.setAttribute("updateLastName", lastName);
+		session.setAttribute("updateFirstName", firstName);
+		session.setAttribute("updateAlphabetLastName", alphabetLastName);
+		session.setAttribute("updateAlphabetFirstName", alphabetFirstName);
+		session.setAttribute("updateBirthday", birthdayStr);
+		session.setAttribute("updateHireDate", hireDateStr);
+		session.setAttribute("updateDepartment", department);
 
 		// バリデーション処理
 		InputValidator validator = new InputValidator();
-		String employeeNoError = validator.validateEmployeeNo(employeeNoStr);
-		int employeeNo = 0;
-		if (employeeNoError == null) {
-			employeeNo = Integer.parseInt(request.getParameter("employeeNo"));
-			EmployeeDao employeeDao = new EmployeeDao();
-			try {
-				if (employeeDao.isEmployeeNoExists(employeeNo)) {
-					employeeNoError = "すでに登録されている社員番号です。";
-				}
-			} catch (SQLException e) {
-				throw new ServletException(e);
-			}
-		}
-
 		String lastNameError = validator.validateLastName(lastName);
 		String firstNameError = validator.validateFirstName(firstName);
 		String alphabetLastNameError = validator.validateAlphabetLastName(alphabetLastName);
@@ -70,10 +53,6 @@ public class RegisterConfirmServlet extends HttpServlet {
 
 		boolean hasError = false;
 		// エラーメッセージがあればリクエストにセット
-		if (employeeNoError != null) {
-			request.setAttribute("employeeNoError", employeeNoError);
-			hasError = true;
-		}
 		if (lastNameError != null) {
 			request.setAttribute("lastNameError", lastNameError);
 			hasError = true;
@@ -97,7 +76,7 @@ public class RegisterConfirmServlet extends HttpServlet {
 
 		// エラーがあった場合は入力画面に戻す
 		if (hasError) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/register/RegisterInput.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update/UpdateInput.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
@@ -112,7 +91,7 @@ public class RegisterConfirmServlet extends HttpServlet {
 		request.setAttribute("hireDate", hireDateStr);
 		request.setAttribute("department", department);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/register/RegisterConfirm.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update/UpdateConfirm.jsp");
 		dispatcher.forward(request, response);
 	}
 }

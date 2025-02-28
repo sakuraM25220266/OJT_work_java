@@ -1,74 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" session="true" %>
+    pageEncoding="UTF-8"%>
 <%@ page import="java.sql.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="jp.co.sfrontier.ojt.employee.db.entity.EmployeeEntity" %>
 <%
-   String employeeNo = (String) session.getAttribute("registerEmployeeNo");
-   if (employeeNo == null) { 
-     employeeNo = ""; 
-   }
-   
-   String lastName = (String) session.getAttribute("registerLastName");
-   if (lastName == null) { 
-     lastName = ""; 
-   }
-   
-   String firstName = (String) session.getAttribute("registerFirstName");
-   if (firstName == null) { 
-	 firstName = ""; 
-   }
-   
-   String alphabetLastName = (String) session.getAttribute("registerAlphabetLastName");
-   if (alphabetLastName == null) { 
-	 alphabetLastName = ""; 
-   }
-   
-   String alphabetFirstName = (String) session.getAttribute("registerAlphabetFirstName");
-   if (alphabetFirstName == null) { 
-	 alphabetFirstName = ""; 
-   }
-   
-   String birthday = (String) session.getAttribute("registerBirthday");
-   if (birthday == null) { 
-	   birthday = ""; 
-   }
-   
-   String hireDate = (String) session.getAttribute("registerHireDate");
-   if (hireDate == null) { 
-	   hireDate = ""; 
-   }
-   
-   String department = (String) session.getAttribute("registerDepartment");
-   if (department == null) { 
-	 department = ""; 
-   }
+	String employeeNo = (String) session.getAttribute("updateEmployeeNo");
+	if (employeeNo == null) {
+		employeeNo = "";
+	}
+	
+	String lastName = (String) session.getAttribute("updateLastName");
+	if (lastName == null) {
+		lastName = "";
+	}
+	
+	String firstName = (String) session.getAttribute("updateFirstName");
+	if (firstName == null) {
+		firstName = "";
+	}
+	
+	String alphabetLastName = (String) session.getAttribute("updateAlphabetLastName");
+	if (alphabetLastName == null) {
+		alphabetLastName = "";
+	}
+	
+	String alphabetFirstName = (String) session.getAttribute("updateAlphabetFirstName");
+	if (alphabetFirstName == null) {
+		alphabetFirstName = "";
+	}
+	
+	String birthday = (String) session.getAttribute("updateBirthday");
+	if (birthday == null) {
+		birthday = "";
+	}
+	
+	String hireDate = (String) session.getAttribute("updateHireDate");
+	if (hireDate == null) {
+		hireDate = "";
+	}
+	
+	String department = (String) session.getAttribute("updateDepartment");
+	if (department == null) {
+		department = "";
+	}
 %>
-
 <!DOCTYPE html>
 <html>
-<meta charset="UTF-8">
 <head>
-<title>新規登録入力画面</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath }/css/test.css">
-
+<meta charset="UTF-8">
+<title>更新入力画面</title>
 </head>
 <body>
-	<p>新規登録する社員情報を入力し、「内容確認に進む」ボタンをクリックしてください。</p>
+	<p>更新したい情報を入力し、「内容確認に進む」ボタンをクリックしてください。</p>
 
-	<form action="<%= request.getContextPath() %>/register/confirm" method="post">
+	<form action="<%= request.getContextPath() %>/update/confirm" method="post">
 	<table>
 		<tr>
-			<td>社員番号<br>※必須</td>
+			<td>社員番号</td>
 			<td>
-				<input type="text" name="employeeNo" value="<%= employeeNo %>">
-                <% 
-                    String employeeNoError = (String) request.getAttribute("employeeNoError");
-                    if (employeeNoError != null) {
-                %>
-                    <span class="error-message"><%= employeeNoError %></span>
-                <% 
-                    }
-                %>
+				<input type="text" name="employeeNo" value="<%= employeeNo %>" readonly >
 			</td>
 		</tr>
 		<tr>

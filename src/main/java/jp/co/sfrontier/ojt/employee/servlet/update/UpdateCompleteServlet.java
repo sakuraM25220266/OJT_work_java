@@ -1,4 +1,4 @@
-package jp.co.sfrontier.ojt.employee.servlet.register;
+package jp.co.sfrontier.ojt.employee.servlet.update;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -10,13 +10,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jp.co.sfrontier.ojt.employee.db.entity.EmployeeEntity;
-import jp.co.sfrontier.ojt.employee.service.register.RegisterService;
+import jp.co.sfrontier.ojt.employee.service.update.UpdateService;
 
 /**
- * 社員情報の登録処理を完了させるサーブレットクラス
+ * 社員情報の更新処理を完了させるサーブレットクラス
  */
-@WebServlet("/register/complete")
-public class RegisterCompleteServlet extends HttpServlet {
+@WebServlet("/update/complete")
+public class UpdateCompleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -41,28 +41,30 @@ public class RegisterCompleteServlet extends HttpServlet {
 		}
 		String department = request.getParameter("department");
 
-		//RegisterServiceを使って社員情報をDBに登録する
-		RegisterService service = new RegisterService();
-		EmployeeEntity employee = new EmployeeEntity(employeeNo, lastName, firstName, alphabetLastName, alphabetFirstName,birthday, hireDate, department);
-		boolean isSuccess = service.registerEmployee(employee);
+		//UpdateServiceを使って社員情報を更新する
+		UpdateService service = new UpdateService();
+		EmployeeEntity employee = new EmployeeEntity(employeeNo, lastName, firstName, alphabetLastName,
+				alphabetFirstName, birthday, hireDate, department);
+		boolean isSuccess = service.updateEmployee(employee);
 
 		if (isSuccess) {
 			//DB登録に成功したとき、登録機能の完了画面を表示する
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/register/RegisterComplete.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update/UpdateComplete.jsp");
 			dispatcher.forward(request, response);
 		} else {
 			//DB登録に失敗したとき、確認画面に値をセットし、エラーメッセージを表示する
 			request.setAttribute("employeeNo", employeeNo);
-		    request.setAttribute("lastName", lastName);
-		    request.setAttribute("firstName", firstName);
-		    request.setAttribute("alphabetLastName", alphabetLastName);
-		    request.setAttribute("alphabetFirstName", alphabetFirstName);
-		    request.setAttribute("birthday", birthdayStr);
-		    request.setAttribute("hireDate", hireDateStr);
-		    request.setAttribute("department", department);
+			request.setAttribute("lastName", lastName);
+			request.setAttribute("firstName", firstName);
+			request.setAttribute("alphabetLastName", alphabetLastName);
+			request.setAttribute("alphabetFirstName", alphabetFirstName);
+			request.setAttribute("birthday", birthdayStr);
+			request.setAttribute("hireDate", hireDateStr);
+			request.setAttribute("department", department);
 			request.setAttribute("errorMessage", "エラーが発生したため登録できませんでした。もう一度お試しください。");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/register/RegisterConfirm.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update/UpdateConfirm.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
+
 }

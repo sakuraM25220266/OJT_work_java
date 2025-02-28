@@ -2,29 +2,31 @@ package jp.co.sfrontier.ojt.employee.db.entity;
 
 import java.sql.Date;
 
-/**
- * 社員情報を格納するエンティティクラス
- */
-public class EmployeeEntity {
+public class SearchConditionEntity {
 	private int employeeNo;
 	private String lastName;
 	private String firstName;
 	private String alphabetLastName;
 	private String alphabetFirstName;
-	private Date birthday;
-	private Date hireDate;
+	private Date birthdayFrom;
+	private Date birthdayTo;
+	private Date hireDateFrom;
+	private Date hireDateTo;
 	private String department;
 
 	//コンストラクタ
-	public EmployeeEntity(int employeeNo, String lastName, String firstName, String alphabetLastName,
-			String alphabetFirstName, Date birthday, Date hireDate, String department) {
+	public SearchConditionEntity(int employeeNo, String lastName, String firstName, String alphabetLastName,
+			String alphabetFirstName, Date birthdayFrom, Date birthdayTo, Date hireDateFrom, Date hireDateTo,
+			String department) {
 		this.employeeNo = employeeNo;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.alphabetLastName = alphabetLastName;
 		this.alphabetFirstName = alphabetFirstName;
-		this.birthday = birthday;
-		this.hireDate = hireDate;
+		this.birthdayFrom = birthdayFrom;
+		this.birthdayTo = birthdayTo;
+		this.hireDateFrom = hireDateFrom;
+		this.hireDateTo = hireDateTo;
 		this.department = department;
 	}
 
@@ -69,20 +71,36 @@ public class EmployeeEntity {
 		this.alphabetFirstName = alphabetFirstName;
 	}
 
-	public Date getBirthday() {
-		return birthday;
+	public Date getBirthdayFrom() {
+		return birthdayFrom;
 	}
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public void setBirthdayFrom(Date birthdayFrom) {
+		this.birthdayFrom = birthdayFrom;
 	}
 
-	public Date getHireDate() {
-		return hireDate;
+	public Date getBirthdayTo() {
+		return birthdayTo;
 	}
 
-	public void setHireDate(Date hireDate) {
-		this.hireDate = hireDate;
+	public void setBirthdayTo(Date birthdayTo) {
+		this.birthdayTo = birthdayTo;
+	}
+
+	public Date getHireDateFrom() {
+		return hireDateFrom;
+	}
+
+	public void setHireDateFrom(Date hireDateFrom) {
+		this.hireDateFrom = hireDateFrom;
+	}
+
+	public Date getHireDateTo() {
+		return hireDateTo;
+	}
+
+	public void setHireDateTo(Date hireDateTo) {
+		this.hireDateTo = hireDateTo;
 	}
 
 	public String getDepartment() {
