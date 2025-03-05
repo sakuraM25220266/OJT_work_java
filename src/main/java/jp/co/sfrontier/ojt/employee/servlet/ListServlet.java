@@ -30,190 +30,201 @@ public class ListServlet extends HttpServlet {
 		try {
 			request.setCharacterEncoding("UTF-8");
 
-			//各機能の完了画面から一覧表示画面に遷移したときは、1つ前の検索結果を表示させる
+			//一覧表示画面以外から遷移した場合は、1つ前の検索条件で検索する
+			///completeは登録・更新・削除の完了画面、/inputは登録・更新の入力画面、/delete/confirmは削除の確認画面
 			String ref = request.getHeader("REFERER");
 			String urlRegex = ".*/(complete|input|delete/confirm)$";
 			if (ref != null && ref.matches(urlRegex)) {
 
-				// セッションから検索条件を取得する
-				String employeeNoStr = (String) session.getAttribute("searchEmployeeNo");
-				String lastName = (String) session.getAttribute("searchLastName");
-				String firstName = (String) session.getAttribute("searchFirstName");
-				String alphabetLastName = (String) session.getAttribute("searchAlphabetLastName");
-				String alphabetFirstName = (String) session.getAttribute("searchAlphabetFirstName");
-				String birthdayFromStr = (String) session.getAttribute("searchBirthdayFrom");
-				String birthdayToStr = (String) session.getAttribute("searchBirthdayTo");
-				String hireDateFromStr = (String) session.getAttribute("searchHireDateFrom");
-				String hireDateToStr = (String) session.getAttribute("searchHireDateTo");
-				String department = (String) session.getAttribute("searchDepartment");
-				
-				//型変換を行う
-				int employeeNo = -1;
-				if (employeeNoStr != null && !employeeNoStr.isEmpty()) {
-					employeeNo = Integer.parseInt(employeeNoStr);
-				}
-				
-				Date birthdayFrom = null;
-				if (birthdayFromStr != null && !birthdayFromStr.isEmpty()) {
-					birthdayFrom = Date.valueOf(birthdayFromStr);
-				}
-
-				Date birthdayTo = null;
-				if (birthdayToStr != null && !birthdayToStr.isEmpty()) {
-					birthdayTo = Date.valueOf(birthdayToStr);
-				}
-
-				Date hireDateFrom = null;
-				if (hireDateFromStr != null && !hireDateFromStr.isEmpty()) {
-					hireDateFrom = Date.valueOf(hireDateFromStr);
-				}
-
-				Date hireDateTo = null;
-				if (hireDateToStr != null && !hireDateToStr.isEmpty()) {
-					hireDateTo = Date.valueOf(hireDateToStr);
-				}
-
-				// 検索条件を使って検索を実行
-				SearchConditionEntity searchCondition = new SearchConditionEntity(employeeNo, lastName, firstName,
-						alphabetLastName, alphabetFirstName, birthdayFrom, birthdayTo, hireDateFrom, hireDateTo,
-						department);
-
-				// 社員情報を取得する
-				List<EmployeeEntity> employees = listService.searchEmployees(searchCondition);
+				List<EmployeeEntity> employees = getEmployeesFromSession(session);
 				request.setAttribute("employees", employees);
-
+				
+				//セッションから復元した検索条件をリクエストにセットする
+				String test = (String) session.getAttribute("searchEmployeeNo");
+				request.setAttribute("employeeNo", session.getAttribute("searchEmployeeNo"));
+				request.setAttribute("lastName", session.getAttribute("searchLastName"));
+				request.setAttribute("firstName", session.getAttribute("searchFirstName"));
+				request.setAttribute("alphabetLastName", session.getAttribute("searchAlphabetLastName"));
+				request.setAttribute("alphabetFirstName", session.getAttribute("searchAlphabetFirstName"));
+				request.setAttribute("birthdayFrom", session.getAttribute("searchBirthdayFrom"));
+				request.setAttribute("birthdayTo", session.getAttribute("searchBirthdayTo"));
+				request.setAttribute("hireDateFrom", session.getAttribute("searchHireDateFrom"));
+				request.setAttribute("hireDateTo", session.getAttribute("searchHireDateTo"));
+				request.setAttribute("department", session.getAttribute("searchDepartment"));
+				
 				// 一覧表示画面を表示
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/List.jsp");
 				dispatcher.forward(request, response);
 				return;
-			}
 
-			//入力画面で入力された値を取得する
-			String employeeNoStr = request.getParameter("employeeNo");
-			String lastName = request.getParameter("lastName");
-			String firstName = request.getParameter("firstName");
-			String alphabetLastName = request.getParameter("alphabetLastName");
-			String alphabetFirstName = request.getParameter("alphabetFirstName");
-			String birthdayFromStr = request.getParameter("birthdayFrom");
-			String birthdayToStr = request.getParameter("birthdayTo");
-			String hireDateFromStr = request.getParameter("hireDateFrom");
-			String hireDateToStr = request.getParameter("hireDateTo");
-			String department = request.getParameter("department");
+			} else {
+				//一覧表示画面に新しくアクセスした場合と検索フォームで検索した場合は、初期値または入力された検索条件で検索する
+				//入力画面で入力された値を取得する
+				String employeeNoStr = request.getParameter("employeeNo");
+				String lastName = request.getParameter("lastName");
+				String firstName = request.getParameter("firstName");
+				String alphabetLastName = request.getParameter("alphabetLastName");
+				String alphabetFirstName = request.getParameter("alphabetFirstName");
+				String birthdayFromStr = request.getParameter("birthdayFrom");
+				String birthdayToStr = request.getParameter("birthdayTo");
+				String hireDateFromStr = request.getParameter("hireDateFrom");
+				String hireDateToStr = request.getParameter("hireDateTo");
+				String department = request.getParameter("department");
 
-			// セッションに保存する
-			session.setAttribute("searchEmployeeNo", employeeNoStr);
-			session.setAttribute("searchLastName", lastName);
-			session.setAttribute("searchFirstName", firstName);
-			session.setAttribute("searchAlphabetLastName", alphabetLastName);
-			session.setAttribute("searchAlphabetFirstName", alphabetFirstName);
-			session.setAttribute("searchBirthdayFrom", birthdayFromStr);
-			session.setAttribute("searchBirthdayTo", birthdayToStr);
-			session.setAttribute("searchHireDateFrom", hireDateFromStr);
-			session.setAttribute("searchHireDateTo", hireDateToStr);
-			session.setAttribute("searchDepartment", department);
+				//バリデーションチェックを行う
+				SearchValidator validator = new SearchValidator();
+				String employeeNoError = validator.validateEmployeeNo(employeeNoStr);
+				String lastNameError = validator.validateLastName(lastName);
+				String firstNameError = validator.validateFirstName(firstName);
+				String alphabetLastNameError = validator.validateAlphabetLastName(alphabetLastName);
+				String alphabetFirstNameError = validator.validateAlphabetFirstName(alphabetFirstName);
 
-			//バリデーションチェックを行う
-			SearchValidator validator = new SearchValidator();
-			String employeeNoError = validator.validateEmployeeNo(employeeNoStr);
-			String lastNameError = validator.validateLastName(lastName);
-			String firstNameError = validator.validateFirstName(firstName);
-			String alphabetLastNameError = validator.validateAlphabetLastName(alphabetLastName);
-			String alphabetFirstNameError = validator.validateAlphabetFirstName(alphabetFirstName);
+				//birthdayの型を変換し、バリデーションチェックを行う
+				Date birthdayFrom = null;
+				Date birthdayTo = null;
+				if (birthdayFromStr != null && !birthdayFromStr.isEmpty()) {
+					birthdayFrom = Date.valueOf(birthdayFromStr);
+				}
+				if (birthdayToStr != null && !birthdayToStr.isEmpty()) {
+					birthdayTo = Date.valueOf(birthdayToStr);
+				}
+				String birthdayError = validator.validateDate(birthdayFrom, birthdayTo);
 
-			//birthdayの型を変換し、バリデーションチェックを行う
-			Date birthdayFrom = null;
-			Date birthdayTo = null;
-			if (birthdayFromStr != null && !birthdayFromStr.isEmpty()) {
-				birthdayFrom = Date.valueOf(birthdayFromStr);
-			}
-			if (birthdayToStr != null && !birthdayToStr.isEmpty()) {
-				birthdayTo = Date.valueOf(birthdayToStr);
-			}
-			String birthdayError = validator.validateDate(birthdayFrom, birthdayTo);
+				//hireDateの型を変換し、バリデーションチェックを行う
+				Date hireDateFrom = null;
+				Date hireDateTo = null;
+				if (hireDateFromStr != null && !hireDateFromStr.isEmpty()) {
+					hireDateFrom = Date.valueOf(hireDateFromStr);
+				}
+				if (hireDateToStr != null && !hireDateToStr.isEmpty()) {
+					hireDateTo = Date.valueOf(hireDateToStr);
+				}
+				String hireDateError = validator.validateDate(hireDateFrom, hireDateTo);
 
-			//hireDateの型を変換し、バリデーションチェックを行う
-			Date hireDateFrom = null;
-			Date hireDateTo = null;
-			if (hireDateFromStr != null && !hireDateFromStr.isEmpty()) {
-				hireDateFrom = Date.valueOf(hireDateFromStr);
-			}
-			if (hireDateToStr != null && !hireDateToStr.isEmpty()) {
-				hireDateTo = Date.valueOf(hireDateToStr);
-			}
-			String hireDateError = validator.validateDate(hireDateFrom, hireDateTo);
+				String departmentError = validator.validateDepartment(department);
 
-			String departmentError = validator.validateDepartment(department);
+				boolean hasError = false;
+				// エラーメッセージがあればリクエストにセット
+				if (employeeNoError != null) {
+					request.setAttribute("employeeNoError", employeeNoError);
+					hasError = true;
+				}
+				if (lastNameError != null) {
+					request.setAttribute("lastNameError", lastNameError);
+					hasError = true;
+				}
+				if (firstNameError != null) {
+					request.setAttribute("firstNameError", firstNameError);
+					hasError = true;
+				}
+				if (alphabetLastNameError != null) {
+					request.setAttribute("alphabetLastNameError", alphabetLastNameError);
+					hasError = true;
+				}
+				if (alphabetFirstNameError != null) {
+					request.setAttribute("alphabetFirstNameError", alphabetFirstNameError);
+					hasError = true;
+				}
+				if (birthdayError != null) {
+					request.setAttribute("birthdayError", birthdayError);
+					hasError = true;
+				}
+				if (hireDateError != null) {
+					request.setAttribute("hireDateError", hireDateError);
+					hasError = true;
+				}
+				if (departmentError != null) {
+					request.setAttribute("departmentError", departmentError);
+					hasError = true;
+				}
 
-			boolean hasError = false;
-			// エラーメッセージがあればリクエストにセット
-			if (employeeNoError != null) {
-				request.setAttribute("employeeNoError", employeeNoError);
-				hasError = true;
-			}
-			if (lastNameError != null) {
-				request.setAttribute("lastNameError", lastNameError);
-				hasError = true;
-			}
-			if (firstNameError != null) {
-				request.setAttribute("firstNameError", firstNameError);
-				hasError = true;
-			}
-			if (alphabetLastNameError != null) {
-				request.setAttribute("alphabetLastNameError", alphabetLastNameError);
-				hasError = true;
-			}
-			if (alphabetFirstNameError != null) {
-				request.setAttribute("alphabetFirstNameError", alphabetFirstNameError);
-				hasError = true;
-			}
-			if (birthdayError != null) {
-				request.setAttribute("birthdayError", birthdayError);
-				hasError = true;
-			}
-			if (hireDateError != null) {
-				request.setAttribute("hireDateError", hireDateError);
-				hasError = true;
-			}
-			if (departmentError != null) {
-				request.setAttribute("departmentError", departmentError);
-				hasError = true;
-			}
+				//エラーがなければセッションを更新する(エラーがあればセッションは1つ前の検索条件のまま)
+				if (!hasError) {
+					session.setAttribute("searchEmployeeNo", employeeNoStr);
+					session.setAttribute("searchLastName", lastName);
+					session.setAttribute("searchFirstName", firstName);
+					session.setAttribute("searchAlphabetLastName", alphabetLastName);
+					session.setAttribute("searchAlphabetFirstName", alphabetFirstName);
+					session.setAttribute("searchBirthdayFrom", birthdayFromStr);
+					session.setAttribute("searchBirthdayTo", birthdayToStr);
+					session.setAttribute("searchHireDateFrom", hireDateFromStr);
+					session.setAttribute("searchHireDateTo", hireDateToStr);
+					session.setAttribute("searchDepartment", department);
+				}
 
-			//エラーが発生した場合は、前回の検索結果（employees）をセッションから取得し、リクエストにセットする
-			if (hasError) {
-				List<EmployeeEntity> employees = (List<EmployeeEntity>) session.getAttribute("employees");
+				//社員情報を取得する
+				List<EmployeeEntity> employees = getEmployeesFromSession(session);
+
+				// 社員情報リストをリクエストスコープにセットする
 				request.setAttribute("employees", employees);
+				
+				//入力された検索条件をリクエストにセットする
+				request.setAttribute("employeeNo", employeeNoStr);
+				request.setAttribute("lastName", lastName);
+				request.setAttribute("firstName", firstName);
+				request.setAttribute("alphabetLastName", alphabetLastName);
+				request.setAttribute("alphabetFirstName", alphabetFirstName);
+				request.setAttribute("birthdayFrom", birthdayFromStr);
+				request.setAttribute("birthdayTo", birthdayToStr);
+				request.setAttribute("hireDateFrom", hireDateFromStr);
+				request.setAttribute("hireDateTo", hireDateToStr);
+				request.setAttribute("department", department);
 
-				//エラーがあった場合は一覧表示画面に戻す
+				//一覧表示画面を表示する
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/List.jsp");
 				dispatcher.forward(request, response);
-				return;
 			}
-
-			//employeeNoの型変換を行う
-			int employeeNo = -1;
-			if (employeeNoStr != null && !employeeNoStr.isEmpty()) {
-				employeeNo = Integer.parseInt(employeeNoStr);
-			}
-
-			// SearchConditionEntityを使って検索条件をセット
-			SearchConditionEntity searchCondition = new SearchConditionEntity(employeeNo, lastName, firstName,
-					alphabetLastName, alphabetFirstName, birthdayFrom, birthdayTo, hireDateFrom, hireDateTo,
-					department);
-
-			// 社員情報を取得する
-			List<EmployeeEntity> employees = listService.searchEmployees(searchCondition);
-
-			// 社員情報リストをセッションとリクエストスコープにセット
-			session.setAttribute("employees", employees);
-			request.setAttribute("employees", employees);
-
-			//一覧表示画面を表示する
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/List.jsp");
-			dispatcher.forward(request, response);
-
 		} catch (IOException | ServletException | RuntimeException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private List<EmployeeEntity> getEmployeesFromSession(HttpSession session) {
+		//セッションから検索条件を取得する		
+		String employeeNoStr = (String) session.getAttribute("searchEmployeeNo");
+		String lastName = (String) session.getAttribute("searchLastName");
+		String firstName = (String) session.getAttribute("searchFirstName");
+		String alphabetLastName = (String) session.getAttribute("searchAlphabetLastName");
+		String alphabetFirstName = (String) session.getAttribute("searchAlphabetFirstName");
+		String birthdayFromStr = (String) session.getAttribute("searchBirthdayFrom");
+		String birthdayToStr = (String) session.getAttribute("searchBirthdayTo");
+		String hireDateFromStr = (String) session.getAttribute("searchHireDateFrom");
+		String hireDateToStr = (String) session.getAttribute("searchHireDateTo");
+		String department = (String) session.getAttribute("searchDepartment");
+
+		//employeeNoの型変換を行う
+		int employeeNo = -1;
+		if (employeeNoStr != null && !employeeNoStr.isEmpty()) {
+			employeeNo = Integer.parseInt(employeeNoStr);
+		}
+
+		//birthdayの型変換を行う
+		Date birthdayFrom = null;
+		Date birthdayTo = null;
+		if (birthdayFromStr != null && !birthdayFromStr.isEmpty()) {
+			birthdayFrom = Date.valueOf(birthdayFromStr);
+		}
+		if (birthdayToStr != null && !birthdayToStr.isEmpty()) {
+			birthdayTo = Date.valueOf(birthdayToStr);
+		}
+
+		//hireDateの型変換を行う
+		Date hireDateFrom = null;
+		Date hireDateTo = null;
+		if (hireDateFromStr != null && !hireDateFromStr.isEmpty()) {
+			hireDateFrom = Date.valueOf(hireDateFromStr);
+		}
+		if (hireDateToStr != null && !hireDateToStr.isEmpty()) {
+			hireDateTo = Date.valueOf(hireDateToStr);
+		}
+
+		// SearchConditionEntityを使って検索条件をセット
+		SearchConditionEntity searchCondition = new SearchConditionEntity(employeeNo, lastName,
+				firstName, alphabetLastName, alphabetFirstName, birthdayFrom, birthdayTo, hireDateFrom,
+				hireDateTo, department);
+
+		// 社員情報を取得する
+		List<EmployeeEntity> employees = listService.searchEmployees(searchCondition);
+		return employees;
 	}
 }

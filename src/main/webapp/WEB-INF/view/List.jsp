@@ -3,55 +3,56 @@
 <%@ page import="java.util.List" %>
 <%@ page import="jp.co.sfrontier.ojt.employee.db.entity.EmployeeEntity" %>
 <%
-   String employeeNo = (String) session.getAttribute("searchEmployeeNo");
-   if (employeeNo == null) { 
-     employeeNo = ""; 
-   }
-
-   String lastName = (String) session.getAttribute("searchLastName");
-   if (lastName == null) { 
-     lastName = ""; 
-   }
-
-   String firstName = (String) session.getAttribute("searchFirstName");
-   if (firstName == null) { 
-     firstName = ""; 
-   }
-
-   String alphabetLastName = (String) session.getAttribute("searchAlphabetLastName");
-   if (alphabetLastName == null) { 
-     alphabetLastName = ""; 
-   }
-
-   String alphabetFirstName = (String) session.getAttribute("searchAlphabetFirstName");
-   if (alphabetFirstName == null) { 
-     alphabetFirstName = ""; 
-   }
-
-   String birthdayFrom = (String) session.getAttribute("searchBirthdayFrom");
-   if (birthdayFrom == null) { 
-     birthdayFrom = ""; 
-   }
-
-   String birthdayTo = (String) session.getAttribute("searchBirthdayTo");
-   if (birthdayTo == null) { 
-     birthdayTo = ""; 
-   }
-
-   String hireDateFrom = (String) session.getAttribute("searchHireDateFrom");
-   if (hireDateFrom == null) { 
-     hireDateFrom = ""; 
-   }
-
-   String hireDateTo = (String) session.getAttribute("searchHireDateTo");
-   if (hireDateTo == null) { 
-     hireDateTo = ""; 
-   }
-
-   String department = (String) session.getAttribute("searchDepartment");
-   if (department == null) { 
-     department = ""; 
-   }
+	String employeeNo = (String) request.getAttribute("employeeNo");
+	if (employeeNo == null) {
+		employeeNo = "";
+	}
+	
+	String lastName = (String) request.getAttribute("lastName");
+	if (lastName == null) {
+		lastName = "";
+	}
+	
+	String firstName = (String) request.getAttribute("firstName");
+	if (firstName == null) {
+		firstName = "";
+	}
+	
+	String alphabetLastName = (String) request.getAttribute("alphabetLastName");
+	if (alphabetLastName == null) {
+		alphabetLastName = "";
+	}
+	
+	String alphabetFirstName = (String) request.getAttribute("alphabetFirstName");
+	if (alphabetFirstName == null) {
+		alphabetFirstName = "";
+	}
+	
+	String birthdayFrom = (String) request.getAttribute("birthdayFrom");
+	if (birthdayFrom == null) {
+		birthdayFrom = "";
+	}
+	
+	String birthdayTo = (String) request.getAttribute("birthdayTo");
+	if (birthdayTo == null) {
+		birthdayTo = "";
+	}
+	
+	String hireDateFrom = (String) request.getAttribute("hireDateFrom");
+	if (hireDateFrom == null) {
+		hireDateFrom = "";
+	}
+	
+	String hireDateTo = (String) request.getAttribute("hireDateTo");
+	if (hireDateTo == null) {
+		hireDateTo = "";
+	}
+	
+	String department = (String) request.getAttribute("department");
+	if (department == null) {
+		department = "";
+		
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -152,7 +153,7 @@
 
     <br>
     <label for="department">部署</label>
-    <input type="text" id="department" name="department">
+    <input type="text" id="department" name="department" value="<%= department %>">
     <%
         String departmentError = (String) request.getAttribute("departmentError");
         if (departmentError != null) {

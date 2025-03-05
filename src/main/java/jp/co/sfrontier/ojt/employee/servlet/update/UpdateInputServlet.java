@@ -31,30 +31,41 @@ public class UpdateInputServlet extends HttpServlet {
 
 		//一覧表示画面から遷移した場合
 		if (ref.matches(urlRegex)) {
-			String employeeNoStr = request.getParameter("employeeNoForUpdate");
+			String employeeNoForUpdate = request.getParameter("employeeNoForUpdate");
 
 			// データベースから社員番号をもとに社員情報を取得する
 			UpdateService service = new UpdateService();
-			EmployeeEntity employee = service.getEmployeeByNo(employeeNoStr);
+			EmployeeEntity employee = service.getEmployeeByNo(employeeNoForUpdate);
 
-			String empNoStr = String.valueOf(employee.getEmployeeNo());
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date test = employee.getBirthday();
-			String birthdayStr = dateFormat.format(employee.getBirthday());
-			String hireDateStr = dateFormat.format(employee.getHireDate());
-			
 			// 取得した社員情報をセッションに保存する
-			session.setAttribute("updateEmployeeNo", empNoStr);
+			//employeeNoをString型に変換する
+			int employeeNo = employee.getEmployeeNo();
+			String employeeNoStr = String.valueOf(employeeNo);
+			session.setAttribute("updateEmployeeNo", employeeNoStr);
+
+			//birthdayとhireDateをString型に変換する
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date birthday = employee.getBirthday();
+			if (birthday != null) {
+				String birthdayStr = dateFormat.format(birthday);
+				session.setAttribute("updateBirthday", birthdayStr);
+			} else {
+				session.setAttribute("updateBirthday", birthday);
+			}
+
+			Date hireDate = employee.getHireDate();
+			if (hireDate != null) {
+				String hireDateStr = dateFormat.format(hireDate);
+				session.setAttribute("updateHireDate", hireDateStr);
+			} else {
+				session.setAttribute("updateHireDate", hireDate);
+			}
+
 			session.setAttribute("updateLastName", employee.getLastName());
 			session.setAttribute("updateFirstName", employee.getFirstName());
 			session.setAttribute("updateAlphabetLastName", employee.getAlphabetLastName());
 			session.setAttribute("updateAlphabetFirstName", employee.getAlphabetFirstName());
-			session.setAttribute("updateBirthday", birthdayStr);
-			session.setAttribute("updateHireDate", hireDateStr);
 			session.setAttribute("updateDepartment", employee.getDepartment());
-
-			// 取得した社員情報をリクエストスコープに保存
-			request.setAttribute("employee", employee);
 		}
 
 		//更新機能の入力画面を表示する

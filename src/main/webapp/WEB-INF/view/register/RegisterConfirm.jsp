@@ -57,7 +57,7 @@
 		</table>
 		<div>
 			<button type="button" onclick="location.href='<%=request.getContextPath()%>/register/input'">内容を修正する</button>
-			<button id="submitButton" type="submit" onclick="disableSubmitButton()">登録する</button>
+			<button id="submitButton" type="submit" onsubmit="disableSubmitButton()">登録する</button>
 		</div>
 	</form>
 </body>
