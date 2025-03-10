@@ -48,11 +48,11 @@ public class UpdateCompleteServlet extends HttpServlet {
 		boolean isSuccess = service.updateEmployee(employee);
 
 		if (isSuccess) {
-			//DB登録に成功したとき、登録機能の完了画面を表示する
+			//更新に成功したとき、更新機能の完了画面を表示する
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update/UpdateComplete.jsp");
 			dispatcher.forward(request, response);
 		} else {
-			//DB登録に失敗したとき、確認画面に値をセットし、エラーメッセージを表示する
+			//更新に失敗したとき、確認画面に値をセットし、エラーメッセージを表示する
 			request.setAttribute("employeeNo", employeeNo);
 			request.setAttribute("lastName", lastName);
 			request.setAttribute("firstName", firstName);

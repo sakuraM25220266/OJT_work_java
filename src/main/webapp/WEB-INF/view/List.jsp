@@ -234,7 +234,11 @@
                 		<button>更新</button>
                 	</form>
                 </td>
-                <td><form action="<%=request.getContextPath()%>/delete/confirm" method="post"><button>削除</button></form>
+                <td>
+                	<form action="<%=request.getContextPath()%>/delete/confirm" method="post">
+                		<input type="hidden" name="employeeNoForDelete" value="<%=employee.getEmployeeNo() %>">
+                		<button>削除</button>
+                	</form>
                 </td>
             </tr>
             <%

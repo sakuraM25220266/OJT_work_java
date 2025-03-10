@@ -11,15 +11,23 @@ import jp.co.sfrontier.ojt.employee.db.entity.SearchConditionEntity;
  */
 public class ListService {
 
-    /**
-     * 社員情報を取得するメソッド
-     * @return EmployeeInfoオブジェクト
-     */
-    public List<EmployeeEntity> searchEmployees(SearchConditionEntity searchCondition) {
-    	
-		EmployeeDao employeeDao = new EmployeeDao();
-		
-      //EmployeeDaoクラスの検索処理を呼び出す
-    	return employeeDao.getEmployeeInfo(searchCondition);
-    }
+	EmployeeDao employeeDao = new EmployeeDao();
+
+	/**
+	 * 検索条件を指定し社員情報を取得するメソッド
+	 * @return employees(社員情報リスト)
+	 */
+	public List<EmployeeEntity> searchEmployees(SearchConditionEntity searchCondition) {
+		//EmployeeDaoクラスの検索処理を呼び出す
+		return employeeDao.getEmployeeInfo(searchCondition);
+	}
+
+	/**
+	 * 社員番号に一致する社員情報を取得するメソッド
+	 * @param employeeNoStr
+	 * @return employee(社員番号に一致する1件の社員情報)
+	 */
+	public EmployeeEntity getEmployeeByNo(String employeeNoStr) {
+		return employeeDao.getEmployeeByNo(employeeNoStr);
+	}
 }

@@ -16,6 +16,9 @@ import jp.co.sfrontier.ojt.employee.db.entity.SearchConditionEntity;
 import jp.co.sfrontier.ojt.employee.service.list.ListService;
 import jp.co.sfrontier.ojt.employee.servlet.validator.SearchValidator;
 
+/**
+ * 社員情報の一覧表示と検索を担当するサーブレットクラス
+ */
 @WebServlet("/list")
 public class ListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -40,7 +43,6 @@ public class ListServlet extends HttpServlet {
 				request.setAttribute("employees", employees);
 				
 				//セッションから復元した検索条件をリクエストにセットする
-				String test = (String) session.getAttribute("searchEmployeeNo");
 				request.setAttribute("employeeNo", session.getAttribute("searchEmployeeNo"));
 				request.setAttribute("lastName", session.getAttribute("searchLastName"));
 				request.setAttribute("firstName", session.getAttribute("searchFirstName"));
@@ -179,6 +181,11 @@ public class ListServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * セッションから検索条件を取得し、その検索条件に合った社員情報を取得する
+	 * @param session
+	 * @return employees
+	 */
 	private List<EmployeeEntity> getEmployeesFromSession(HttpSession session) {
 		//セッションから検索条件を取得する		
 		String employeeNoStr = (String) session.getAttribute("searchEmployeeNo");

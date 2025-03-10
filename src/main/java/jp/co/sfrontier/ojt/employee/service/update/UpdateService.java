@@ -9,11 +9,12 @@ import jp.co.sfrontier.ojt.employee.db.entity.EmployeeEntity;
 public class UpdateService {
 
 	EmployeeDao employeeDao = new EmployeeDao();
-	
-	public EmployeeEntity getEmployeeByNo(String employeeNoStr) {
-		return employeeDao.getEmployeeByNo(employeeNoStr);
-	}
-	
+
+	/**
+	 * 社員情報の更新を行う
+	 * @param employee
+	 * @return isUpdated
+	 */
 	public boolean updateEmployee(EmployeeEntity employee) {
 		return employeeDao.updateEmployee(employee);
 	}
