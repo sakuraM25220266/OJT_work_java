@@ -25,45 +25,43 @@ public class DeleteConfirmServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		//一覧表示画面から削除を行う社員番号を取得する
-		String employeeNoFromList = request.getParameter("employeeNo");
+		String employeeNoStr = request.getParameter("employeeNo");
 
-		// データベースから社員番号をもとに社員情報を取得する
-		ListService service = new ListService();
-		EmployeeEntity employee = service.getEmployeeByNo(employeeNoFromList);
+		if (employeeNoStr != null && !employeeNoStr.isEmpty()) {
+			// データベースから社員番号をもとに社員情報を取得する
+			ListService service = new ListService();
+			EmployeeEntity employee = service.getEmployeeByNo(employeeNoStr);
 
-		//取得した社員情報をリクエストにセットする
-		//employeeNoをString型に変換する
-		int employeeNo = employee.getEmployeeNo();
-		String employeeNoStr = String.valueOf(employeeNo);
-		request.setAttribute("deleteEmployeeNo", employeeNoStr);
+			//取得した社員情報をリクエストにセットする
+			request.setAttribute("deleteEmployeeNo", employeeNoStr);
 
-		//birthdayとhireDateをString型に変換する
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date birthday = employee.getBirthday();
-		if (birthday != null) {
-			String birthdayStr = dateFormat.format(birthday);
-			request.setAttribute("deleteBirthday", birthdayStr);
-		} else {
-			request.setAttribute("deleteBirthday", birthday);
+			//birthdayとhireDateをString型に変換する
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date birthday = employee.getBirthday();
+			if (birthday != null) {
+				String birthdayStr = dateFormat.format(birthday);
+				request.setAttribute("deleteBirthday", birthdayStr);
+			} else {
+				request.setAttribute("deleteBirthday", birthday);
+			}
+
+			Date hireDate = employee.getHireDate();
+			if (hireDate != null) {
+				String hireDateStr = dateFormat.format(hireDate);
+				request.setAttribute("deleteHireDate", hireDateStr);
+			} else {
+				request.setAttribute("deleteHireDate", hireDate);
+			}
+
+			request.setAttribute("deleteLastName", employee.getLastName());
+			request.setAttribute("deleteFirstName", employee.getFirstName());
+			request.setAttribute("deleteAlphabetLastName", employee.getAlphabetLastName());
+			request.setAttribute("deleteAlphabetFirstName", employee.getAlphabetFirstName());
+			request.setAttribute("deleteDepartment", employee.getDepartment());
+
+			//削除機能の確認画面を表示する
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/delete/DeleteConfirm.jsp");
+			dispatcher.forward(request, response);
 		}
-
-		Date hireDate = employee.getHireDate();
-		if (hireDate != null) {
-			String hireDateStr = dateFormat.format(hireDate);
-			request.setAttribute("deleteHireDate", hireDateStr);
-		} else {
-			request.setAttribute("deleteHireDate", hireDate);
-		}
-
-		request.setAttribute("deleteLastName", employee.getLastName());
-		request.setAttribute("deleteFirstName", employee.getFirstName());
-		request.setAttribute("deleteAlphabetLastName", employee.getAlphabetLastName());
-		request.setAttribute("deleteAlphabetFirstName", employee.getAlphabetFirstName());
-		request.setAttribute("deleteDepartment", employee.getDepartment());
-
-		//削除機能の確認画面を表示する
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/delete/DeleteConfirm.jsp");
-		dispatcher.forward(request, response);
 	}
-
 }

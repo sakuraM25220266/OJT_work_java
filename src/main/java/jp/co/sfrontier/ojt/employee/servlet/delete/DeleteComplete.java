@@ -31,7 +31,7 @@ public class DeleteComplete extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/delete/DeleteComplete.jsp");
 			dispatcher.forward(request, response);
 		} else {
-			//削除に失敗したとき、確認画面に値をセットし、エラーメッセージを表示する
+			//削除に失敗したとき、確認画面に戻りエラーメッセージを表示する
 			request.setAttribute("errorMessage", "エラーが発生したため登録できませんでした。もう一度お試しください。");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/delete/DeleteConfirm.jsp");
 			dispatcher.forward(request, response);

@@ -31,43 +31,42 @@ public class UpdateInputServlet extends HttpServlet {
 		if (ref.matches(urlRegex)) {
 			///listのURLからアクセスされたとき、一覧表示画面から取得した社員番号で更新対象の社員情報を取得する
 			//一覧表示画面から更新を行う社員番号を取得する
-			String employeeNoFromList = request.getParameter("employeeNo");
+			String employeeNoStr = request.getParameter("employeeNo");
 
-			// データベースから社員番号をもとに社員情報を取得する
-			ListService service = new ListService();
-			EmployeeEntity employee = service.getEmployeeByNo(employeeNoFromList);
+			if (employeeNoStr != null && !employeeNoStr.isEmpty()) {
+				// データベースから社員番号をもとに社員情報を取得する
+				ListService service = new ListService();
+				EmployeeEntity employee = service.getEmployeeByNo(employeeNoStr);
 
-			// 取得した社員情報をセッションに保存する
-			//employeeNoをString型に変換する
-			int employeeNo = employee.getEmployeeNo();
-			String employeeNoStr = String.valueOf(employeeNo);
-			session.setAttribute("updateEmployeeNo", employeeNoStr);
+				// 取得した社員情報をセッションに保存する
+				//employeeNoをString型に変換する
+				session.setAttribute("updateEmployeeNo", employeeNoStr);
 
-			//birthdayとhireDateをString型に変換する
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date birthday = employee.getBirthday();
-			if (birthday != null) {
-				String birthdayStr = dateFormat.format(birthday);
-				session.setAttribute("updateBirthday", birthdayStr);
-			} else {
-				session.setAttribute("updateBirthday", birthday);
+				//birthdayとhireDateをString型に変換する
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Date birthday = employee.getBirthday();
+				if (birthday != null) {
+					String birthdayStr = dateFormat.format(birthday);
+					session.setAttribute("updateBirthday", birthdayStr);
+				} else {
+					session.setAttribute("updateBirthday", birthday);
+				}
+
+				Date hireDate = employee.getHireDate();
+				if (hireDate != null) {
+					String hireDateStr = dateFormat.format(hireDate);
+					session.setAttribute("updateHireDate", hireDateStr);
+				} else {
+					session.setAttribute("updateHireDate", hireDate);
+				}
+
+				session.setAttribute("updateLastName", employee.getLastName());
+				session.setAttribute("updateFirstName", employee.getFirstName());
+				session.setAttribute("updateAlphabetLastName", employee.getAlphabetLastName());
+				session.setAttribute("updateAlphabetFirstName", employee.getAlphabetFirstName());
+				session.setAttribute("updateDepartment", employee.getDepartment());
 			}
-
-			Date hireDate = employee.getHireDate();
-			if (hireDate != null) {
-				String hireDateStr = dateFormat.format(hireDate);
-				session.setAttribute("updateHireDate", hireDateStr);
-			} else {
-				session.setAttribute("updateHireDate", hireDate);
-			}
-
-			session.setAttribute("updateLastName", employee.getLastName());
-			session.setAttribute("updateFirstName", employee.getFirstName());
-			session.setAttribute("updateAlphabetLastName", employee.getAlphabetLastName());
-			session.setAttribute("updateAlphabetFirstName", employee.getAlphabetFirstName());
-			session.setAttribute("updateDepartment", employee.getDepartment());
 		}
-
 		//更新機能の入力画面を表示する
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update/UpdateInput.jsp");
 		dispatcher.forward(request, response);
