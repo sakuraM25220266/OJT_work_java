@@ -57,13 +57,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>一覧表示画面</title>
-    <script src="<%=request.getContextPath()%>/JavaScript/ResetForm.js"></script>
+<meta charset="UTF-8">
+<title>一覧表示画面</title>
+<script src="<%=request.getContextPath()%>/JavaScript/ResetForm.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/employeeapp.css">
+
 </head>
 <body>
 
 <!-- 検索フォーム -->
+<div class="search-form">
 <form action="<%=request.getContextPath()%>/list" method="get" name="searchEmployee">
     <label for="employeeNo">社員番号</label>
     <input type="text" id="employeeNo" name="employeeNo" value="<%= employeeNo %>">
@@ -167,11 +170,11 @@
     <button type="submit">検索</button>
     <button type="button" onclick="resetForm()">クリア</button>
 </form>
+</div>
 
 <br>
-
 <!-- 新規登録ボタン -->
-<a href="<%=request.getContextPath()%>/register/input"><button>新規登録</button></a>
+<a href="<%=request.getContextPath()%>/register/input"><button class="register-button">新規登録</button></a>
 
 <!-- 社員情報テーブル -->
 <div class="scroll-container">
@@ -230,14 +233,14 @@
                 <td><%=employee.getDepartment()%></td>
                 <td>
                 	<form action="<%=request.getContextPath()%>/update/input" method="post">
-                		<input type="hidden" name="employeeNoForUpdate" value="<%=employee.getEmployeeNo() %>">
-                		<button>更新</button>
+                		<input type="hidden" name="employeeNo" value="<%=employee.getEmployeeNo() %>">
+                		<button class="update-delete">更新</button>
                 	</form>
                 </td>
                 <td>
                 	<form action="<%=request.getContextPath()%>/delete/confirm" method="post">
-                		<input type="hidden" name="employeeNoForDelete" value="<%=employee.getEmployeeNo() %>">
-                		<button>削除</button>
+                		<input type="hidden" name="employeeNo" value="<%=employee.getEmployeeNo() %>">
+                		<button class="update-delete">削除</button>
                 	</form>
                 </td>
             </tr>

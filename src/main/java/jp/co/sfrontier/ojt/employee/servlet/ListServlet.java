@@ -17,7 +17,10 @@ import jp.co.sfrontier.ojt.employee.service.list.ListService;
 import jp.co.sfrontier.ojt.employee.servlet.validator.SearchValidator;
 
 /**
- * 社員情報の一覧表示と検索を担当するサーブレットクラス
+ * 社員情報の一覧表示と検索を担当するサーブレットクラス<br>
+ * 一覧表示画面に初回アクセスした時と、全件表示状態で他画面に遷移し一覧表示画面に戻って来た時は、社員情報を全件表示する。<br>
+ * 検索フォームで社員情報の絞り込みを行い、他画面に遷移し一覧表示画面に戻って来た時は、絞り込まれた状態の社員情報を表示する。<br>
+ * したがって、一覧表示画面を表示する際はセッションから検索条件を取得することで、新しく入力された検索条件またはひとつ前に検索したときの検索条件で社員情報の検索を行うようにしている。
  */
 @WebServlet("/list")
 public class ListServlet extends HttpServlet {
@@ -39,9 +42,6 @@ public class ListServlet extends HttpServlet {
 			String urlRegex = ".*/(complete|input|delete/confirm)$";
 			if (ref != null && ref.matches(urlRegex)) {
 
-				List<EmployeeEntity> employees = getEmployeesFromSession(session);
-				request.setAttribute("employees", employees);
-				
 				//セッションから復元した検索条件をリクエストにセットする
 				request.setAttribute("employeeNo", session.getAttribute("searchEmployeeNo"));
 				request.setAttribute("lastName", session.getAttribute("searchLastName"));
@@ -53,11 +53,6 @@ public class ListServlet extends HttpServlet {
 				request.setAttribute("hireDateFrom", session.getAttribute("searchHireDateFrom"));
 				request.setAttribute("hireDateTo", session.getAttribute("searchHireDateTo"));
 				request.setAttribute("department", session.getAttribute("searchDepartment"));
-				
-				// 一覧表示画面を表示
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/List.jsp");
-				dispatcher.forward(request, response);
-				return;
 
 			} else {
 				//一覧表示画面に新しくアクセスした場合と検索フォームで検索した場合は、初期値または入力された検索条件で検索する
@@ -154,12 +149,6 @@ public class ListServlet extends HttpServlet {
 					session.setAttribute("searchDepartment", department);
 				}
 
-				//社員情報を取得する
-				List<EmployeeEntity> employees = getEmployeesFromSession(session);
-
-				// 社員情報リストをリクエストスコープにセットする
-				request.setAttribute("employees", employees);
-				
 				//入力された検索条件をリクエストにセットする
 				request.setAttribute("employeeNo", employeeNoStr);
 				request.setAttribute("lastName", lastName);
@@ -171,11 +160,17 @@ public class ListServlet extends HttpServlet {
 				request.setAttribute("hireDateFrom", hireDateFromStr);
 				request.setAttribute("hireDateTo", hireDateToStr);
 				request.setAttribute("department", department);
-
-				//一覧表示画面を表示する
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/List.jsp");
-				dispatcher.forward(request, response);
 			}
+			//社員情報を取得する
+			List<EmployeeEntity> employees = getEmployeesFromSession(session);
+
+			// 社員情報リストをリクエストスコープにセットする
+			request.setAttribute("employees", employees);
+
+			//一覧表示画面を表示する
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/List.jsp");
+			dispatcher.forward(request, response);
+
 		} catch (IOException | ServletException | RuntimeException e) {
 			e.printStackTrace();
 		}

@@ -49,6 +49,7 @@
 <head>
 <meta charset="UTF-8">
 <title>更新入力画面</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/employeeapp.css">
 </head>
 <body>
 	<p>更新したい情報を入力し、「内容確認に進む」ボタンをクリックしてください。</p>
@@ -58,7 +59,8 @@
 		<tr>
 			<td>社員番号</td>
 			<td>
-				<input type="text" name="employeeNo" value="<%= employeeNo %>" readonly >
+				<input type="text" value="<%= employeeNo %>" disabled >
+				<input type="hidden" name="employeeNo" value="<%= employeeNo %>">
 			</td>
 		</tr>
 		<tr>
@@ -68,6 +70,7 @@
                     String lastNameError = (String) request.getAttribute("lastNameError");
                     if (lastNameError != null) {
                 %>
+                    <br>
                     <span class="error-message"><%= lastNameError %></span> 
                 <% 
                     }
@@ -78,6 +81,7 @@
                     String firstNameError = (String) request.getAttribute("firstNameError");
                     if (firstNameError != null) {
                 %>
+                    <br>
                     <span class="error-message"><%= firstNameError %></span> 
                 <% 
                     }
@@ -92,6 +96,7 @@
                     String alphabetLastNameError = (String) request.getAttribute("alphabetLastNameError");
                     if (alphabetLastNameError != null) {
                 %>
+                    <br>
                     <span class="error-message"><%= alphabetLastNameError %></span>
                 <% 
                     }
@@ -102,6 +107,7 @@
                     String alphabetFirstNameError = (String) request.getAttribute("alphabetFirstNameError");
                     if (alphabetFirstNameError != null) {
                 %>
+                    <br>
                     <span class="error-message"><%= alphabetFirstNameError %></span>
                 <% 
                     }
@@ -111,27 +117,11 @@
 		<tr>
 			<td>生年月日</td>
 			<td><input type="date" name="birthday" value="<%= birthday %>" min="1900-01-01" max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
-                <% 
-                    String dateError = (String) request.getAttribute("dateError");
-                    if (dateError != null) {
-                %>
-                    <span class="error-message"><%= dateError %></span>
-                <% 
-                    }
-                %>
             </td>
 		</tr>
 		<tr>
 			<td>入社年月日</td>
 			<td><input type="date" name="hireDate" value="<%= hireDate %>" min="1900-01-01" max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
-                <% 
-                    String hireDateError = (String) request.getAttribute("hireDateError");
-                    if (hireDateError != null) {
-                %>
-                    <span class="error-message"><%= hireDateError %></span>
-                <% 
-                    }
-                %>
             </td>
 		</tr>
 		<tr>
@@ -141,6 +131,7 @@
                     String departmentError = (String) request.getAttribute("departmentError");
                     if (departmentError != null) {
                 %>
+                    <br>
                     <span class="error-message"><%= departmentError %></span>
                 <% 
                     }
@@ -149,8 +140,8 @@
 		</tr>
 	</table>
 	<div>
-		<button type="button" onclick="location.href='<%= request.getContextPath() %>/list'">キャンセル</button>
-	    <button type="submit">内容確認に進む</button>
+		<button type="button" class="paging-button" onclick="location.href='<%= request.getContextPath() %>/list'">キャンセル</button>
+	    <button type="submit" class="paging-button">内容確認に進む</button>
 	</div>
 	
     </form>

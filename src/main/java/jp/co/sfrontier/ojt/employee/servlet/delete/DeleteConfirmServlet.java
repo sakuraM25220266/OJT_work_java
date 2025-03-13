@@ -25,12 +25,11 @@ public class DeleteConfirmServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		//一覧表示画面から削除を行う社員番号を取得する
-		String employeeNoForDelete = request.getParameter("employeeNoForDelete");
+		String employeeNoFromList = request.getParameter("employeeNo");
 
 		// データベースから社員番号をもとに社員情報を取得する
 		ListService service = new ListService();
-		EmployeeEntity employee = service.getEmployeeByNo(employeeNoForDelete);
-		request.setAttribute("employee", employee);
+		EmployeeEntity employee = service.getEmployeeByNo(employeeNoFromList);
 
 		//取得した社員情報をリクエストにセットする
 		//employeeNoをString型に変換する

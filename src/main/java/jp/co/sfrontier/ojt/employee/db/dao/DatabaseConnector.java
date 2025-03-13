@@ -37,7 +37,10 @@ public class DatabaseConnector {
 		properties = new Properties();
 		try (InputStream is = getClass().getResourceAsStream("/localhost.properties");
 				BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-
+//
+//		String propertyFile = System.getenv("環境変数");
+//		try (InputStream is = getClass().getResourceAsStream(propertyFile);
+//				BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
 			properties.load(br);
 
 		} catch (IOException e) {

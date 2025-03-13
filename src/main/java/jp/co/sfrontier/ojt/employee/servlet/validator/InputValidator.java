@@ -64,7 +64,7 @@ public class InputValidator {
 			return "必須項目が未入力です。";
 		}
 		if (!alphabetLastName.matches("^[A-Za-z]{1,20}$")) {
-			return "20文字以内のアルファベットで入力してください。";
+			return "20文字以内の半角英字で入力してください。";
 		}
 		return null;
 	}
@@ -79,7 +79,7 @@ public class InputValidator {
 				return "必須項目が未入力です。";
 			}
 			if (!alphabetFirstName.matches("^[A-Za-z]{1,20}$")) {
-				return "20文字以内のアルファベットで入力してください。";
+				return "20文字以内の半角英字で入力してください。";
 			}
 			return null;
 		}

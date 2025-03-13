@@ -187,46 +187,23 @@ public class EmployeeDao {
 	}
 
 	/**
-	 * 社員番号から社員情報を検索するメソッド
+	 * 社員番号から社員情報を検索するメソッド<br>
+	 * 社員番号のみ指定したSerchConditionEntityオブジェクトを生成し、getEmployeeInfoメソッドに検索処理を委譲する
 	 * @param employeeNoStr
-	 * @return employee
+	 * @return 一致する社員情報があればemployees、なければnull
 	 */
 	public EmployeeEntity getEmployeeByNo(String employeeNoStr) {
-		// SQL文の作成
-		String sql = "SELECT * FROM employees WHERE employee_no = ?";
-		EmployeeEntity employee = null;
+		int employeeNo = Integer.parseInt(employeeNoStr);
+		SearchConditionEntity searchCondition = new SearchConditionEntity(employeeNo, "", "", "", "", null, null, null,
+				null, "");
 
-		try {
-			// データベース接続
-			DatabaseConnector dbConnector = new DatabaseConnector();
-			Connection con = dbConnector.getConnection();
+		//getEmployeeInfoメソッドに処理を委譲する
+		List<EmployeeEntity> employees = getEmployeeInfo(searchCondition);
 
-			// SQL実行準備
-			PreparedStatement stmt = con.prepareStatement(sql);
-			//入力された社員番号の値をセットする
-			stmt.setString(1, employeeNoStr);
-			// 実行結果取得
-			ResultSet rs = stmt.executeQuery();
-
-			// 取得したデータを変数に入れる
-			if (rs.next()) {
-				int employeeNo = rs.getInt("employee_no");
-				String lastName = rs.getString("last_name");
-				String firstName = rs.getString("first_name");
-				String alphabetLastName = rs.getString("last_name_roman");
-				String alphabetFirstName = rs.getString("first_name_roman");
-				Date birthday = rs.getDate("birthday");
-				Date hireDate = rs.getDate("hired_on");
-				String department = rs.getString("department");
-
-				//EmployeeEntityのインスタンスを生成する
-				employee = new EmployeeEntity(employeeNo, lastName, firstName, alphabetLastName, alphabetFirstName,
-						birthday, hireDate, department);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if (employees.size() > 0) {
+			return employees.get(0);
 		}
-		return employee;
+		return null;
 	}
 
 	/**
