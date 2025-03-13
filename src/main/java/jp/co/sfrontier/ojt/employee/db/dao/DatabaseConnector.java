@@ -35,15 +35,27 @@ public class DatabaseConnector {
 	 */
 	public Connection getConnection() throws SQLException {
 		properties = new Properties();
-		try (InputStream is = getClass().getResourceAsStream("/localhost.properties");
-				BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
 
-			properties.load(br);
+		String propertyFile = System.getenv("DB_PROPERTIY_FILE");
 
-		} catch (IOException e) {
-			e.printStackTrace();
+		//環境変数の値によって読み込む設定ファイルを切り替える
+		if (propertyFile.equals("production")) {
+			try (InputStream is = getClass().getResourceAsStream("/server.properties");
+					BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+				properties.load(br);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (propertyFile.equals("localhost")) {
+			try (InputStream is = getClass().getResourceAsStream("/localhost.properties");
+					BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+				properties.load(br);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
+		//読み込んだ設定ファイルからDB接続情報を取得する
 		String url = properties.getProperty("db.url");
 		String user = properties.getProperty("db.user");
 		String password = properties.getProperty("db.password");

@@ -6,15 +6,15 @@
 <meta charset="UTF-8">
 <title>新規登録確認画面</title>
 <script src="<%=request.getContextPath()%>/JavaScript/ButtonAction.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/employeeapp.css">
+
 </head>
 <body>
 	<%
 	String errorMessage = (String) request.getAttribute("errorMessage");
 	if (errorMessage != null && !errorMessage.isEmpty()) {
 	%>
-	<span class="errorMessage" style="color: red; font-weight: bold;">
-		<%=errorMessage%>
-	</span>
+	<span class="error-message"><%=errorMessage%></span>
 	<%
 	}
 	%>
