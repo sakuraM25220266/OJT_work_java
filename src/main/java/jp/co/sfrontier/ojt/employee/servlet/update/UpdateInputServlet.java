@@ -1,40 +1,74 @@
 package jp.co.sfrontier.ojt.employee.servlet.update;
 
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import jakarta.servlet.http.HttpSession;
+import jp.co.sfrontier.ojt.employee.db.entity.EmployeeEntity;
+import jp.co.sfrontier.ojt.employee.service.list.ListService;
 
 /**
- * Servlet implementation class UpdateInputServlet
+ * 更新機能の入力画面を表示するサーブレットクラス
  */
+@WebServlet("/update/input")
 public class UpdateInputServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UpdateInputServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+
+		String ref = request.getHeader("REFERER");
+		String urlRegex = ".*/list$";
+		if (ref.matches(urlRegex)) {
+			///listのURLからアクセスされたとき、一覧表示画面から取得した社員番号で更新対象の社員情報を取得する
+			//一覧表示画面から更新を行う社員番号を取得する
+			String employeeNoStr = request.getParameter("employeeNo");
+
+			if (employeeNoStr != null && !employeeNoStr.isEmpty()) {
+				// データベースから社員番号をもとに社員情報を取得する
+				ListService service = new ListService();
+				EmployeeEntity employee = service.getEmployeeByNo(employeeNoStr);
+
+				// 取得した社員情報をセッションに保存する
+				//employeeNoをString型に変換する
+				session.setAttribute("updateEmployeeNo", employeeNoStr);
+
+				//birthdayとhireDateをString型に変換する
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Date birthday = employee.getBirthday();
+				if (birthday != null) {
+					String birthdayStr = dateFormat.format(birthday);
+					session.setAttribute("updateBirthday", birthdayStr);
+				} else {
+					session.setAttribute("updateBirthday", birthday);
+				}
+
+				Date hireDate = employee.getHireDate();
+				if (hireDate != null) {
+					String hireDateStr = dateFormat.format(hireDate);
+					session.setAttribute("updateHireDate", hireDateStr);
+				} else {
+					session.setAttribute("updateHireDate", hireDate);
+				}
+
+				session.setAttribute("updateLastName", employee.getLastName());
+				session.setAttribute("updateFirstName", employee.getFirstName());
+				session.setAttribute("updateAlphabetLastName", employee.getAlphabetLastName());
+				session.setAttribute("updateAlphabetFirstName", employee.getAlphabetFirstName());
+				session.setAttribute("updateDepartment", employee.getDepartment());
+			}
+		}
+		//更新機能の入力画面を表示する
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update/UpdateInput.jsp");
+		dispatcher.forward(request, response);
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }

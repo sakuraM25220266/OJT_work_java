@@ -1,9 +1,11 @@
 package jp.co.sfrontier.ojt.employee.servlet.validator;
 
+import java.sql.Date;
+
 /**
- * 登録機能と更新機能の入力画面のバリデーションチェックの処理を行うクラス
+ * 検索フォームのバリデーションチェックの処理を行うクラス
  */
-public class InputValidator {
+public class SearchValidator {
 
 	/**
 	 * 社員番号のバリデーションチェックを行うメソッド
@@ -11,16 +13,9 @@ public class InputValidator {
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
 	public String validateEmployeeNo(String employeeNoStr) {
-		if (employeeNoStr == null || employeeNoStr.isEmpty()) {
-			return "必須項目が未入力です。";
-		}
-		if (employeeNoStr.matches("^0{1,4}$")) {
-			return "社員番号0番は登録できません。";
-		}
-		if (!employeeNoStr.matches("^[0-9]{1,4}$")) {
+		if (employeeNoStr != null && !employeeNoStr.isEmpty() && !employeeNoStr.matches("^[0-9]{1,4}$")) {
 			return "4文字以内の半角数値で入力してください。";
 		}
-		//バリデーションチェックOKの時
 		return null;
 	}
 
@@ -30,29 +25,23 @@ public class InputValidator {
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
 	public String validateLastName(String lastName) {
-		if (lastName == null || lastName.isEmpty()) {
-			return "必須項目が未入力です。";
-		}
-		if (lastName.length() > 10) {
+		if (lastName != null && !lastName.isEmpty() && lastName.length() > 10) {
 			return "10文字以内で入力してください。";
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 名(漢字)のバリデーションチェックを行うメソッド
 	 * @param firstName
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
-		public String validateFirstName(String firstName) {
-			if (firstName == null || firstName.isEmpty()) {
-				return "必須項目が未入力です。";
-			}
-			if (firstName.length() > 10) {
-				return "10文字以内で入力してください。";
-			}
-			return null;
+	public String validateFirstName(String firstName) {
+		if (firstName != null && !firstName.isEmpty() && firstName.length() > 10) {
+			return "10文字以内で入力してください。";
 		}
+		return null;
+	}
 
 	/**
 	 * 姓(ローマ字)のバリデーションチェックを行うメソッド
@@ -60,29 +49,36 @@ public class InputValidator {
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
 	public String validateAlphabetLastName(String alphabetLastName) {
-		if (alphabetLastName == null || alphabetLastName.isEmpty()){
-			return "必須項目が未入力です。";
-		}
-		if (!alphabetLastName.matches("^[A-Za-z]{1,20}$")) {
+		if (alphabetLastName != null && !alphabetLastName.isEmpty() && !alphabetLastName.matches("^[A-Za-z]{1,20}$")) {
 			return "20文字以内の半角英字で入力してください。";
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 名(ローマ字)のバリデーションチェックを行うメソッド
 	 * @param alphabetFirstName
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
-		public String validateAlphabetFirstName(String alphabetFirstName) {
-			if (alphabetFirstName == null || alphabetFirstName.isEmpty()){
-				return "必須項目が未入力です。";
-			}
-			if (!alphabetFirstName.matches("^[A-Za-z]{1,20}$")) {
-				return "20文字以内の半角英字で入力してください。";
-			}
-			return null;
+	public String validateAlphabetFirstName(String alphabetFirstName) {
+		if (alphabetFirstName != null && !alphabetFirstName.isEmpty() && !alphabetFirstName.matches("^[A-Za-z]{1,20}$")) {
+			return "20文字以内の半角英字で入力してください。";
 		}
+		return null;
+	}
+
+	/**
+	 * 年月日の範囲のバリデーションチェックを行うメソッド
+	 * @param from
+	 * @param to
+	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
+	 */
+	public String validateDate(Date from, Date to) {
+		if (from != null && to != null && from.after(to)) {
+			return "期間検索の開始日が終了日よりも後の日付になっています。";
+		}
+		return null;
+	}
 
 	/**
 	 * 部署のバリデーションチェックを行うメソッド
@@ -90,7 +86,7 @@ public class InputValidator {
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
 	public String validateDepartment(String department) {
-		if (department.length() > 20) {
+		if (department != null && !department.isEmpty() && department.length() > 20) {
 			return "20文字以内で入力してください。";
 		}
 		return null;

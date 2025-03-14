@@ -1,6 +1,3 @@
-/**
- * 
- */
 package jp.co.sfrontier.ojt.employee.service.register;
 
 import jp.co.sfrontier.ojt.employee.db.dao.EmployeeDao;

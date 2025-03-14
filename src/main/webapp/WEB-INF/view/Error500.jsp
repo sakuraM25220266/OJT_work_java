@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>エラー</title>
 </head>
 <body>
-	<p>画面内でエラーが発生しました。</p>
+	<p>エラーが発生しました。</p>
+	<button type="button" onclick="history.back()">戻る</button>
 </body>
 </html>
