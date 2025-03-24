@@ -53,6 +53,13 @@ public class DatabaseConnector {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		} else if (propertyFile.equals("localhost_test")) {
+			try (InputStream is = getClass().getResourceAsStream("/localhost_test.properties");
+					BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+				properties.load(br);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		//読み込んだ設定ファイルからDB接続情報を取得する
