@@ -36,7 +36,7 @@ public class DatabaseConnector {
 	public Connection getConnection() throws SQLException {
 		properties = new Properties();
 
-		String propertyFile = System.getenv("DB_PROPERTIY_FILE");
+		String propertyFile = System.getenv("DB_PROPERTY_FILE");
 
 		//環境変数の値によって読み込む設定ファイルを切り替える
 		if (propertyFile.equals("production")) {
@@ -48,6 +48,13 @@ public class DatabaseConnector {
 			}
 		} else if (propertyFile.equals("localhost")) {
 			try (InputStream is = getClass().getResourceAsStream("/localhost.properties");
+					BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+				properties.load(br);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (propertyFile.equals("localhost_test")) {
+			try (InputStream is = getClass().getResourceAsStream("/localhost_test.properties");
 					BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
 				properties.load(br);
 			} catch (IOException e) {
