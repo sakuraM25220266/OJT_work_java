@@ -90,7 +90,7 @@ public class InputValidator {
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
 	public String validateDepartment(String department) {
-		if (department.length() > 20) {
+		if (department != null && department.length() > 20) {
 			return "20文字以内で入力してください。";
 		}
 		return null;

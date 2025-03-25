@@ -14,7 +14,7 @@ class SearchValidatorTest {
 	SearchValidator validator = new SearchValidator();
 
 	/**
-	 * 社員番号のバリデーションチェックメソッドのテストケース
+	 * 社員番号のバリデーションチェックメソッドの正常系テストケース
 	 */
 	@Test
 	void testValidateEmployeeNo_correct() {
@@ -23,6 +23,9 @@ class SearchValidatorTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * 社員番号のバリデーションチェックメソッドの異常系テストケース(値が5文字の場合)
+	 */
 	@Test
 	void testValidateEmployeeNo_long() {
 		String expected = "4文字以内の半角数値で入力してください。";
@@ -30,6 +33,9 @@ class SearchValidatorTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * 社員番号のバリデーションチェックメソッドの異常系テストケース(値が英字の場合)
+	 */
 	@Test
 	void testValidateEmployeeNo_alphabet() {
 		String expected = "4文字以内の半角数値で入力してください。";
@@ -37,13 +43,19 @@ class SearchValidatorTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * 社員番号のバリデーションチェックメソッドの異常系テストケース(値が数字と英字が混在している場合)
+	 */
 	@Test
-	void testValidateEmployeeNo_mix() {
+	void testValidateEmployeeNo_numberAndAlphabet() {
 		String expected = "4文字以内の半角数値で入力してください。";
 		String actual = validator.validateEmployeeNo("12ab");
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * 社員番号のバリデーションチェックメソッドの異常系テストケース(値が全角数字の場合)
+	 */
 	@Test
 	void testValidateEmployeeNo_fullWidth() {
 		String expected = "4文字以内の半角数値で入力してください。";
@@ -52,7 +64,7 @@ class SearchValidatorTest {
 	}
 
 	/**
-	 * 姓(漢字)のバリデーションチェックメソッドのテストケース
+	 * 姓(漢字)のバリデーションチェックメソッドの正常系テストケース
 	 */
 	@Test
 	void testValidateLastName_correct() {
@@ -61,15 +73,28 @@ class SearchValidatorTest {
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * 姓(漢字)のバリデーションチェックメソッドの正常系テストケース(値が10文字の場合)
+	 */
 	@Test
-	void testValidateLastName_long() {
+	void testValidateLastName_10characters() {
+		String expected = null;
+		String actual = validator.validateLastName("ああああああああああ");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * 姓(漢字)のバリデーションチェックメソッドの異常系テストケース(値が11文字の場合)
+	 */
+	@Test
+	void testValidateLastName_11characters() {
 		String expected = "10文字以内で入力してください。";
 		String actual = validator.validateLastName("あああああああああああ");
 		assertEquals(expected, actual);
 	}
 
 	/**
-	 * 名(漢字)のバリデーションチェックメソッドのテストケース
+	 * 名(漢字)バリデーションチェックメソッドの正常系テストケース
 	 */
 	@Test
 	void testValidateFirstName_correct() {

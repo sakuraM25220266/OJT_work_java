@@ -126,8 +126,7 @@ class EmployeeDaoTest {
 	@Test
 	void testGetEmployeeInfo_alphabetLastName() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "Ueda", "", null, null, null,
-				null,
-				"");
+				null, "");
 
 		List<EmployeeEntity> employees = employeeDao.getEmployeeInfo(searchCondition);
 		int expected = 1;
@@ -149,8 +148,7 @@ class EmployeeDaoTest {
 	@Test
 	void testGetEmployeeInfo_alphabetFirstName() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "", "Hana", null, null, null,
-				null,
-				"");
+				null, "");
 
 		List<EmployeeEntity> employees = employeeDao.getEmployeeInfo(searchCondition);
 		int expected = 1;
