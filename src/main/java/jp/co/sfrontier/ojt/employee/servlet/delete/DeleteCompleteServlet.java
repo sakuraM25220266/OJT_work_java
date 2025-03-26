@@ -14,7 +14,7 @@ import jp.co.sfrontier.ojt.employee.service.delete.DeleteService;
  * 社員情報の削除処理を完了させるサーブレットクラス
  */
 @WebServlet("/delete/complete")
-public class DeleteComplete extends HttpServlet {
+public class DeleteCompleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
