@@ -143,7 +143,7 @@
     <label for="hireDateFrom">入社年月日</label>
     <input type="date" id="hireDateFrom" name="hireDateFrom" value="<%= hireDateFrom %>" min="1900-01-01" max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
     <span>～</span>
-    <input type="date" id="hireDateTo" name="hireDateTo" value="<%= birthdayTo %>" min="1900-01-01" max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
+    <input type="date" id="hireDateTo" name="hireDateTo" value="<%= hireDateTo %>" min="1900-01-01" max="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>">
     <%
         String hireDateError = (String) request.getAttribute("hireDateError");
         if (hireDateError != null) {
