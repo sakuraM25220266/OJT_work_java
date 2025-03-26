@@ -244,7 +244,7 @@ class SearchValidatorTest {
 	}
 
 	/**
-	 * 年月日の範囲のバリデーションチェックメソッドの正常系テストケース(期間終了が期間開始より前の日付の場合)
+	 * 年月日の範囲のバリデーションチェックメソッドの正常系テストケース(期間開始が期間終了より前の日付の場合)
 	 */
 	@Test
 	void testValidateDate_correct() {
@@ -256,13 +256,49 @@ class SearchValidatorTest {
 	}
 
 	/**
-	 * 年月日の範囲のバリデーションチェックメソッドの正常系テストケース(期間終了と期間開始が同じ日付の場合)
+	 * 年月日の範囲のバリデーションチェックメソッドの正常系テストケース(期間開始と期間終了が同じ日付の場合)
 	 */
 	@Test
 	void testValidateDate_same() {
 		String expected = null;
 		Date from = Date.valueOf("2025-03-01");
 		Date to = Date.valueOf("2025-03-01");
+		String actual = validator.validateDate(from, to);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * 年月日の範囲のバリデーションチェックメソッドの正常系テストケース(期間開始がnullの場合)
+	 */
+	@Test
+	void testValidateDate_fromIsNull() {
+		String expected = null;
+		Date from = null;
+		Date to = Date.valueOf("2025-03-01");
+		String actual = validator.validateDate(from, to);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * 年月日の範囲のバリデーションチェックメソッドの正常系テストケース(期間終了がnullの場合)
+	 */
+	@Test
+	void testValidateDate_toIsNull() {
+		String expected = null;
+		Date from = Date.valueOf("2025-03-01");
+		Date to = null;
+		String actual = validator.validateDate(from, to);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * 年月日の範囲のバリデーションチェックメソッドの正常系テストケース(期間開始と期間終了がnullの場合)
+	 */
+	@Test
+	void testValidateDate_fromAndToAreNull() {
+		String expected = null;
+		Date from = null;
+		Date to = null;
 		String actual = validator.validateDate(from, to);
 		assertEquals(expected, actual);
 	}

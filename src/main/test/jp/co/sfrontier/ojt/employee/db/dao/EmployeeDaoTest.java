@@ -250,7 +250,7 @@ class EmployeeDaoTest {
 		assertEquals(Date.valueOf("2020-09-01"), employee.getHireDate());
 		assertEquals("システムサービス1部", employee.getDepartment());
 	}
-	
+
 	/**
 	 * 社員情報の検索メソッドの正常系テストケース<br>
 	 * 検索条件に生年月日(期間開始と期間終了)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
@@ -328,7 +328,7 @@ class EmployeeDaoTest {
 		assertEquals(Date.valueOf("2015-10-15"), employee.getHireDate());
 		assertEquals("システムサービス3部", employee.getDepartment());
 	}
-	
+
 	/**
 	 * 社員情報の検索メソッドの正常系テストケース<br>
 	 * 検索条件に入社年月日(期間開始と期間終了)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
@@ -389,7 +389,8 @@ class EmployeeDaoTest {
 	@Order(16)
 	void testGetEmployeeInfo_allConditions() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(601, "上田", "雄二", "Ueda", "Yuji",
-				Date.valueOf("1980-01-01"), Date.valueOf("1990-01-01"), Date.valueOf("2020-01-01"), Date.valueOf("2021-01-01"), "システムサービス1部");
+				Date.valueOf("1980-01-01"), Date.valueOf("1990-01-01"), Date.valueOf("2020-01-01"),
+				Date.valueOf("2021-01-01"), "システムサービス1部");
 
 		List<EmployeeEntity> employees = employeeDao.getEmployeeInfo(searchCondition);
 		EmployeeEntity employee = employees.get(0);
@@ -482,7 +483,7 @@ class EmployeeDaoTest {
 		assertEquals(Date.valueOf("2023-04-01"), insertedEmployee.getHireDate());
 		assertEquals("システムサービス1部", insertedEmployee.getDepartment());
 	}
-	
+
 	/**
 	 * 社員情報の新規登録メソッドの異常系テストケース
 	 */
@@ -519,7 +520,7 @@ class EmployeeDaoTest {
 		assertEquals(Date.valueOf("2023-04-01"), updatedEmployee.getHireDate());
 		assertEquals("総務部", updatedEmployee.getDepartment());
 	}
-	
+
 	/**
 	 * 社員情報の更新メソッドの異常系テストケース
 	 */
@@ -548,5 +549,14 @@ class EmployeeDaoTest {
 		String expected1 = null;
 		EmployeeEntity actual1 = employeeDao.getEmployeeByNo(employeeNoStr);
 		assertEquals(actual1, expected1);
+	}
+
+	/**
+	 * 社員情報の削除メソッドの異常系テストケース
+	 */
+	@Test
+	@Order(26)
+	void testDeleteEmployee_abnormal() {
+		//deleteEmployeeメソッドは異常系のテストケースが作成できないので、テストメソッドの定義だけ行い、処理は書かない
 	}
 }
