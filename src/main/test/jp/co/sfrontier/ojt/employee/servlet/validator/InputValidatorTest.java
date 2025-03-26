@@ -177,7 +177,7 @@ class InputValidatorTest {
 	@Test
 	void testValidateFirstName_10characters() {
 		String expected = null;
-		String actual = validator.validateFirstName("あああああああああああ");
+		String actual = validator.validateFirstName("ああああああああああ");
 		assertEquals(expected, actual);
 	}
 	
@@ -256,7 +256,7 @@ class InputValidatorTest {
 	 */
 	@Test
 	void testValidateAlphabetLastName_20characters() {
-		String expected = "20文字以内の半角英字で入力してください。";
+		String expected = null;
 		String actual = validator.validateAlphabetLastName("aaaaaaaaaaaaaaaaaaaa");
 		assertEquals(expected, actual);
 	}
@@ -366,7 +366,7 @@ class InputValidatorTest {
 	 */
 	@Test
 	void testValidateDepartment_20characters() {
-		String expected = "20文字以内で入力してください。";
+		String expected = null;
 		String actual = validator.validateDepartment("ああああああああああああああああああああ");
 		assertEquals(expected, actual);
 	}

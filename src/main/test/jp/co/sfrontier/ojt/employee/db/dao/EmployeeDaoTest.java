@@ -21,9 +21,9 @@ class EmployeeDaoTest {
 	EmployeeDao employeeDao = new EmployeeDao();
 
 	/**
-	 * 社員情報の検索メソッドのテストケース
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件を指定し、検索結果が0件であることを確認する
 	 */
-	//検索条件を指定し、検索結果が0件であることを確認する
 	@Test
 	void testGetEmployeeInfo_noResult() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(600, "", "", "", "", null, null, null, null,
@@ -34,7 +34,10 @@ class EmployeeDaoTest {
 		assertEquals(expected, actual);
 	}
 
-	//検索条件を指定し、検索結果が1件であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件を指定し、検索結果が1件であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_oneResult() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(601, "", "", "", "", null, null, null, null,
@@ -45,7 +48,10 @@ class EmployeeDaoTest {
 		assertEquals(expected, actual);
 	}
 
-	//検索条件を指定し、検索結果が複数件であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件を指定し、検索結果が複数件であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_multipleResult() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(60, "", "", "", "", null, null, null, null,
@@ -56,7 +62,10 @@ class EmployeeDaoTest {
 		assertEquals(expected, actual);
 	}
 
-	//検索条件に社員番号を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に社員番号を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_employeeNo() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(602, "", "", "", "", null, null, null, null,
@@ -78,7 +87,10 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス2部", employee.getDepartment());
 	}
 
-	//検索条件に姓(漢字)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に姓(漢字)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_lastName() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "上田", "", "", "", null, null, null, null,
@@ -100,7 +112,10 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス1部", employee.getDepartment());
 	}
 
-	//検索条件に名(漢字)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に名(漢字)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_firstName() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "花", "", "", null, null, null, null,
@@ -122,7 +137,10 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス3部", employee.getDepartment());
 	}
 
-	//検索条件に姓(ローマ字)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に姓(ローマ字)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_alphabetLastName() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "Ueda", "", null, null, null,
@@ -144,7 +162,10 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス1部", employee.getDepartment());
 	}
 
-	//検索条件に名(ローマ字)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に名(ローマ字)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_alphabetFirstName() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "", "Hana", null, null, null,
@@ -166,7 +187,10 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス3部", employee.getDepartment());
 	}
 
-	//検索条件に生年月日(期間開始)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に生年月日(期間開始)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_birthdayFrom() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "", "",
@@ -188,7 +212,10 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス2部", employee.getDepartment());
 	}
 
-	//検索条件に生年月日(期間終了)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に生年月日(期間終了)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_birthdayTo() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "", "",
@@ -210,7 +237,10 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス1部", employee.getDepartment());
 	}
 
-	//検索条件に入社年月日(期間開始)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に入社年月日(期間開始)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_hireDateFrom() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "", "",
@@ -232,7 +262,10 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス2部", employee.getDepartment());
 	}
 
-	//検索条件に入社年月日(期間終了)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に入社年月日(期間終了)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_hireDateTo() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "", "",
@@ -254,7 +287,10 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス3部", employee.getDepartment());
 	}
 
-	//検索条件に部署を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に部署を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_department() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "", "",
@@ -276,7 +312,10 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス3部", employee.getDepartment());
 	}
 
-	//検索条件を全項目指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件を全項目指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
 	@Test
 	void testGetEmployeeInfo_allConditions() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(601, "上田", "雄二", "Ueda", "Yuji",
@@ -295,10 +334,9 @@ class EmployeeDaoTest {
 	}
 
 	/**
-	 * 社員番号の重複チェックメソッドのテストケース
+	 * 社員番号の重複チェックメソッドの正常系テストケース(社員番号が存在する場合)
 	 * @throws SQLException 
 	 */
-	//社員番号が存在する場合
 	@Test
 	void testIsEmployeeNoExists_employeeExists() throws SQLException {
 		int employeeNo = 601;
@@ -307,7 +345,10 @@ class EmployeeDaoTest {
 		assertEquals(expected, actual);
 	}
 
-	//社員番号が存在しない場合
+	/**
+	 * 社員番号の重複チェックメソッドの正常系テストケース(社員番号が存在しない場合)
+	 * @throws SQLException 
+	 */
 	@Test
 	void testIsEmployeeNoExists_employeeNotExists() throws SQLException {
 		int employeeNo = 600;
@@ -317,9 +358,8 @@ class EmployeeDaoTest {
 	}
 
 	/**
-	 * 社員番号から社員情報を検索するメソッドのテストケース
+	 * 社員番号から社員情報を検索するメソッドの正常系テストケース(社員番号が一致する社員情報が存在する場合)
 	 */
-	//社員番号が一致する社員情報が存在する場合
 	@Test
 	void testGetEmployeeByNo_employeeExists() {
 		String employeeNoStr = "601";
@@ -334,7 +374,9 @@ class EmployeeDaoTest {
 		assertEquals("システムサービス1部", employee.getDepartment());
 	}
 
-	//社員番号が一致する社員情報が存在しない場合
+	/**
+	 * 社員番号から社員情報を検索するメソッドの正常系テストケース(社員番号が一致する社員情報が存在しない場合)
+	 */
 	@Test
 	void testGetEmployeeByNo_employeeNotExists() {
 		String employeeNoStr = "600";
@@ -344,7 +386,7 @@ class EmployeeDaoTest {
 	}
 
 	/**
-	 * 社員情報の新規登録メソッドのテストケース
+	 * 社員情報の新規登録メソッドの正常系テストケース
 	 */
 	@Test
 	void testInsertEmployee() {
@@ -367,7 +409,7 @@ class EmployeeDaoTest {
 	}
 
 	/**
-	 * 社員情報の更新メソッドのテストケース
+	 * 社員情報の更新メソッドの正常系テストケース
 	 */
 	@Test
 	void testUpdateEmployee() {
@@ -390,7 +432,7 @@ class EmployeeDaoTest {
 	}
 
 	/**
-	 * 社員情報の削除メソッドのテストケース
+	 * 社員情報の削除メソッドの正常系テストケース
 	 */
 	@Test
 	void testDeleteEmployee() {
