@@ -71,22 +71,29 @@
 			<tr>
 				<td>氏名（漢字）</td>
 				<td><%=lastName%> <%=firstName%></td>
+				<input type="hidden" name="lastName" value="<%=lastName%>">
+				<input type="hidden" name="firstName" value="<%=firstName%>">
 			</tr>
 			<tr>
 				<td>氏名（ローマ字）</td>
 				<td><%=alphabetLastName%> <%=alphabetFirstName%></td>
+				<input type="hidden" name="alphabetLastName" value="<%=alphabetLastName%>">
+				<input type="hidden" name="alphabetFirstName" value="<%=alphabetFirstName%>">
 			</tr>
 			<tr>
 				<td>生年月日</td>
 				<td><%=birthday%></td>
+				<input type="hidden" name="birthday" value="<%=birthday%>">
 			</tr>
 			<tr>
 				<td>入社年月日</td>
 				<td><%=hireDate%></td>
+				<input type="hidden" name="hireDate" value="<%=hireDate%>">
 			</tr>
 			<tr>
 				<td>部署</td>
 				<td><%=department%></td>
+				<input type="hidden" name="department" value="<%=department%>">
 			</tr>
 		</table>
 		<div>

@@ -61,7 +61,7 @@ public class UpdateCompleteServlet extends HttpServlet {
 			request.setAttribute("birthday", birthdayStr);
 			request.setAttribute("hireDate", hireDateStr);
 			request.setAttribute("department", department);
-			request.setAttribute("errorMessage", "エラーが発生したため登録できませんでした。もう一度お試しください。");
+			request.setAttribute("errorMessage", "エラーが発生したため更新できませんでした。もう一度お試しください。");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/update/UpdateConfirm.jsp");
 			dispatcher.forward(request, response);
 		}
