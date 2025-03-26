@@ -236,6 +236,31 @@ class EmployeeDaoTest {
 		assertEquals(Date.valueOf("2020-09-01"), employee.getHireDate());
 		assertEquals("システムサービス1部", employee.getDepartment());
 	}
+	
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に生年月日(期間開始と期間終了)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
+	@Test
+	void testGetEmployeeInfo_birthdayFromAndBirthdayTo() {
+		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "", "",
+				Date.valueOf("2000-01-01"), Date.valueOf("2001-01-01"), null, null, "");
+
+		List<EmployeeEntity> employees = employeeDao.getEmployeeInfo(searchCondition);
+		int expected = 1;
+		int actual = employees.size();
+		assertEquals(expected, actual);
+
+		EmployeeEntity employee = employees.get(0);
+		assertEquals(602, employee.getEmployeeNo());
+		assertEquals("佐々木", employee.getLastName());
+		assertEquals("優子", employee.getFirstName());
+		assertEquals("Sasaki", employee.getAlphabetLastName());
+		assertEquals("Yuko", employee.getAlphabetFirstName());
+		assertEquals(Date.valueOf("2000-05-10"), employee.getBirthday());
+		assertEquals(Date.valueOf("2023-04-01"), employee.getHireDate());
+		assertEquals("システムサービス2部", employee.getDepartment());
+	}
 
 	/**
 	 * 社員情報の検索メソッドの正常系テストケース<br>
@@ -286,6 +311,31 @@ class EmployeeDaoTest {
 		assertEquals(Date.valueOf("2015-10-15"), employee.getHireDate());
 		assertEquals("システムサービス3部", employee.getDepartment());
 	}
+	
+	/**
+	 * 社員情報の検索メソッドの正常系テストケース<br>
+	 * 検索条件に入社年月日(期間開始と期間終了)を指定し、結果が1件かつ想定通りの社員情報であることを確認する
+	 */
+	@Test
+	void testGetEmployeeInfo_hireDateFromAndHireDateTo() {
+		SearchConditionEntity searchCondition = new SearchConditionEntity(-1, "", "", "", "",
+				null, null, Date.valueOf("2023-01-01"), Date.valueOf("2025-01-01"), "");
+
+		List<EmployeeEntity> employees = employeeDao.getEmployeeInfo(searchCondition);
+		int expected = 1;
+		int actual = employees.size();
+		assertEquals(expected, actual);
+
+		EmployeeEntity employee = employees.get(0);
+		assertEquals(602, employee.getEmployeeNo());
+		assertEquals("佐々木", employee.getLastName());
+		assertEquals("優子", employee.getFirstName());
+		assertEquals("Sasaki", employee.getAlphabetLastName());
+		assertEquals("Yuko", employee.getAlphabetFirstName());
+		assertEquals(Date.valueOf("2000-05-10"), employee.getBirthday());
+		assertEquals(Date.valueOf("2023-04-01"), employee.getHireDate());
+		assertEquals("システムサービス2部", employee.getDepartment());
+	}
 
 	/**
 	 * 社員情報の検索メソッドの正常系テストケース<br>
@@ -319,7 +369,7 @@ class EmployeeDaoTest {
 	@Test
 	void testGetEmployeeInfo_allConditions() {
 		SearchConditionEntity searchCondition = new SearchConditionEntity(601, "上田", "雄二", "Ueda", "Yuji",
-				Date.valueOf("1980-03-19"), null, Date.valueOf("2020-09-01"), null, "システムサービス1部");
+				Date.valueOf("1980-01-01"), Date.valueOf("1990-01-01"), Date.valueOf("2020-01-01"), Date.valueOf("2021-01-01"), "システムサービス1部");
 
 		List<EmployeeEntity> employees = employeeDao.getEmployeeInfo(searchCondition);
 		EmployeeEntity employee = employees.get(0);
