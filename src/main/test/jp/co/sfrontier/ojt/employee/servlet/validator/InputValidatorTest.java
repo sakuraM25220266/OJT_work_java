@@ -360,6 +360,26 @@ class InputValidatorTest {
 		String actual = validator.validateDepartment("システムサービス1部");
 		assertEquals(expected, actual);
 	}
+	
+	/**
+	 * 部署のバリデーションチェックメソッドの正常系テストケース(値がnullの場合)
+	 */
+	@Test
+	void testValidateDepartment_null() {
+		String expected = null;
+		String actual = validator.validateDepartment(null);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * 部署のバリデーションチェックメソッドの正常系テストケース(値が空文字の場合)
+	 */
+	@Test
+	void testValidateDepartment_empty() {
+		String expected = null;
+		String actual = validator.validateDepartment("");
+		assertEquals(expected, actual);
+	}
 
 	/**
 	 * 部署のバリデーションチェックメソッドの正常系テストケース(値が20文字の場合)
