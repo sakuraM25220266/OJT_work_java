@@ -14,7 +14,7 @@ import jp.co.sfrontier.ojt.employee.db.entity.SearchConditionEntity;
 /**
  * EmployeeDaoクラスのメソッドの単体テストを行うテストクラス<br>
  * テスト実行前に、src/main/test/sql配下のTestData.sqlを手動で実行し、テスト用DB(company_test)にテストデータを挿入する<br>
- * テスト実行後は、テーブル内のテストデータを手動で削除する
+ * テスト実行後は、src/main/test/sql配下のDeleteRecord.sqlを手動で実行し、テーブル内のテストデータを削除する
  */
 class EmployeeDaoTest {
 
