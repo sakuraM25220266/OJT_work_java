@@ -501,7 +501,7 @@ class EmployeeDaoTest {
 	 */
 	@Test
 	@Order(23)
-	void testUpdateEmployee() {
+	void testUpdateEmployee_normal() {
 		EmployeeEntity employee = new EmployeeEntity(605, "山田", "健太", "Yamada", "Kenta", Date.valueOf("2000-01-01"),
 				Date.valueOf("2023-04-01"), "総務部");
 		boolean expected = true;
@@ -519,13 +519,26 @@ class EmployeeDaoTest {
 		assertEquals(Date.valueOf("2023-04-01"), updatedEmployee.getHireDate());
 		assertEquals("総務部", updatedEmployee.getDepartment());
 	}
+	
+	/**
+	 * 社員情報の更新メソッドの異常系テストケース
+	 */
+	@Test
+	@Order(24)
+	void testUpdateEmployee_abnormal() {
+		EmployeeEntity employee = new EmployeeEntity(605, null, null, null, null, Date.valueOf("2000-01-01"),
+				Date.valueOf("2023-04-01"), "総務部");
+		boolean expected = false;
+		boolean actual = employeeDao.updateEmployee(employee);
+		assertEquals(expected, actual);
+	}
 
 	/**
 	 * 社員情報の削除メソッドの正常系テストケース
 	 */
 	@Test
-	@Order(24)
-	void testDeleteEmployee() {
+	@Order(25)
+	void testDeleteEmployee_normal() {
 		int employeeNo = 606;
 		boolean expected = true;
 		boolean actual = employeeDao.deleteEmployee(employeeNo);
