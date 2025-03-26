@@ -82,7 +82,7 @@ class SearchValidatorTest {
 		String actual = validator.validateLastName("ああああああああああ");
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 姓(漢字)のバリデーションチェックメソッドの異常系テストケース(値が11文字の場合)
 	 */
@@ -112,7 +112,7 @@ class SearchValidatorTest {
 		String actual = validator.validateFirstName("ああああああああああ");
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 名(漢字)バリデーションチェックメソッドの異常系テストケース(値が11文字の場合)
 	 */
@@ -132,7 +132,7 @@ class SearchValidatorTest {
 		String actual = validator.validateAlphabetLastName("Watanabe");
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 姓(ローマ字)のバリデーションチェックメソッドの異常系テストケース(値が数字の場合)
 	 */
@@ -172,7 +172,7 @@ class SearchValidatorTest {
 		String actual = validator.validateAlphabetLastName("aaaaaaaaaaaaaaaaaaaa");
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 姓(ローマ字)のバリデーションチェックメソッドの異常系テストケース(値が21文字の場合)
 	 */
@@ -232,7 +232,7 @@ class SearchValidatorTest {
 		String actual = validator.validateAlphabetFirstName("aaaaaaaaaaaaaaaaaaaa");
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 名(ローマ字)のバリデーションチェックメソッドの異常系テストケース(値が21文字の場合)
 	 */
@@ -266,7 +266,7 @@ class SearchValidatorTest {
 		String actual = validator.validateDate(from, to);
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 年月日の範囲のバリデーションチェックメソッドの正常系テストケース(期間開始がnullの場合)
 	 */
@@ -278,7 +278,7 @@ class SearchValidatorTest {
 		String actual = validator.validateDate(from, to);
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 年月日の範囲のバリデーションチェックメソッドの正常系テストケース(期間終了がnullの場合)
 	 */
@@ -290,7 +290,7 @@ class SearchValidatorTest {
 		String actual = validator.validateDate(from, to);
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 年月日の範囲のバリデーションチェックメソッドの正常系テストケース(期間開始と期間終了がnullの場合)
 	 */
@@ -324,7 +324,7 @@ class SearchValidatorTest {
 		String actual = validator.validateDepartment("システムサービス1部");
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 部署のバリデーションチェックメソッドの正常系テストケース(値がnullの場合)
 	 */
@@ -334,7 +334,7 @@ class SearchValidatorTest {
 		String actual = validator.validateDepartment(null);
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 部署のバリデーションチェックメソッドの正常系テストケース(値が空文字の場合)
 	 */
@@ -354,7 +354,7 @@ class SearchValidatorTest {
 		String actual = validator.validateDepartment("ああああああああああああああああああああ");
 		assertEquals(expected, actual);
 	}
-	
+
 	/**
 	 * 部署のバリデーションチェックメソッドの異常系テストケース(値が21文字の場合)
 	 */
