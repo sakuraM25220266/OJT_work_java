@@ -61,7 +61,8 @@ public class SearchValidator {
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
 	public String validateAlphabetFirstName(String alphabetFirstName) {
-		if (alphabetFirstName != null && !alphabetFirstName.isEmpty() && !alphabetFirstName.matches("^[A-Za-z]{1,20}$")) {
+		if (alphabetFirstName != null && !alphabetFirstName.isEmpty()
+				&& !alphabetFirstName.matches("^[A-Za-z]{1,20}$")) {
 			return "20文字以内の半角英字で入力してください。";
 		}
 		return null;

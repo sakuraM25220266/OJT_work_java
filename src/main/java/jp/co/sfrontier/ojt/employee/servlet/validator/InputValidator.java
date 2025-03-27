@@ -38,21 +38,21 @@ public class InputValidator {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 名(漢字)のバリデーションチェックを行うメソッド
 	 * @param firstName
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
-		public String validateFirstName(String firstName) {
-			if (firstName == null || firstName.isEmpty()) {
-				return "必須項目が未入力です。";
-			}
-			if (firstName.length() > 10) {
-				return "10文字以内で入力してください。";
-			}
-			return null;
+	public String validateFirstName(String firstName) {
+		if (firstName == null || firstName.isEmpty()) {
+			return "必須項目が未入力です。";
 		}
+		if (firstName.length() > 10) {
+			return "10文字以内で入力してください。";
+		}
+		return null;
+	}
 
 	/**
 	 * 姓(ローマ字)のバリデーションチェックを行うメソッド
@@ -60,7 +60,7 @@ public class InputValidator {
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
 	public String validateAlphabetLastName(String alphabetLastName) {
-		if (alphabetLastName == null || alphabetLastName.isEmpty()){
+		if (alphabetLastName == null || alphabetLastName.isEmpty()) {
 			return "必須項目が未入力です。";
 		}
 		if (!alphabetLastName.matches("^[A-Za-z]{1,20}$")) {
@@ -68,21 +68,21 @@ public class InputValidator {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 名(ローマ字)のバリデーションチェックを行うメソッド
 	 * @param alphabetFirstName
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
-		public String validateAlphabetFirstName(String alphabetFirstName) {
-			if (alphabetFirstName == null || alphabetFirstName.isEmpty()){
-				return "必須項目が未入力です。";
-			}
-			if (!alphabetFirstName.matches("^[A-Za-z]{1,20}$")) {
-				return "20文字以内の半角英字で入力してください。";
-			}
-			return null;
+	public String validateAlphabetFirstName(String alphabetFirstName) {
+		if (alphabetFirstName == null || alphabetFirstName.isEmpty()) {
+			return "必須項目が未入力です。";
 		}
+		if (!alphabetFirstName.matches("^[A-Za-z]{1,20}$")) {
+			return "20文字以内の半角英字で入力してください。";
+		}
+		return null;
+	}
 
 	/**
 	 * 部署のバリデーションチェックを行うメソッド
@@ -90,7 +90,7 @@ public class InputValidator {
 	 * @return エラーがある場合はエラーメッセージ、ない場合はnull
 	 */
 	public String validateDepartment(String department) {
-		if (department.length() > 20) {
+		if (department != null && !department.isEmpty() && department.length() > 20) {
 			return "20文字以内で入力してください。";
 		}
 		return null;
